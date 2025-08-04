@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity Platform Dashboard</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-100">
+        <div class="px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 flex items-center justify-center relative">
+                    <i class="ri-notification-3-line text-xl text-gray-600"></i>
+                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">3</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">JD</span>
+                    </div>
+                    <span class="text-gray-700 font-medium">John Davis</span>
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-arrow-down-s-line text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8 max-w-7xl mx-auto">
+        <!-- Key Metrics Cards -->
+        <div class="grid grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-lg">
+                        <i class="ri-wallet-3-line text-white text-xl"></i>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold text-gray-900 mb-2">$12,450</div>
+                <div class="text-blue-700 font-medium">Total Balance</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 flex items-center justify-center bg-green-500 rounded-lg">
+                        <i class="ri-heart-3-line text-white text-xl"></i>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold text-gray-900 mb-2">47</div>
+                <div class="text-green-700 font-medium">Total Donations Made</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 flex items-center justify-center bg-purple-500 rounded-lg">
+                        <i class="ri-hand-heart-line text-white text-xl"></i>
+                    </div>
+                </div>
+                <div class="text-3xl font-bold text-gray-900 mb-2">8</div>
+                <div class="text-purple-700 font-medium">Active Requests</div>
+            </div>
+        </div>
+
+        <!-- Primary Action Buttons -->
+        <div class="flex justify-center gap-6 mb-10">
+            <button class="bg-primary text-white px-8 py-4 !rounded-button font-semibold whitespace-nowrap flex items-center gap-3 hover:bg-blue-600 transition-colors shadow-lg">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-hand-coin-line text-lg"></i>
+                </div>
+                Donate Now
+            </button>
+            <button class="bg-secondary text-white px-8 py-4 !rounded-button font-semibold whitespace-nowrap flex items-center gap-3 hover:bg-green-600 transition-colors shadow-lg">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-hand-heart-line text-lg"></i>
+                </div>
+                Request Help
+            </button>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-2 gap-8">
+            <!-- Donation History Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Recent Donations</h2>
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <input type="text" placeholder="Search donations..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <div class="absolute left-3 top-2.5 w-4 h-4 flex items-center justify-center">
+                                    <i class="ri-search-line text-gray-400 text-sm"></i>
+                                </div>
+                            </div>
+                            <button class="text-primary hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg">
+                                    <i class="ri-heart-3-fill text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Education Support</div>
+                                    <div class="text-sm text-gray-500">Dec 15, 2024</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-900">$250</div>
+                                <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Completed</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-green-100 rounded-lg">
+                                    <i class="ri-seedling-fill text-green-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Environmental Care</div>
+                                    <div class="text-sm text-gray-500">Dec 12, 2024</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-900">$180</div>
+                                <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Completed</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-lg">
+                                    <i class="ri-hospital-fill text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Healthcare Initiative</div>
+                                    <div class="text-sm text-gray-500">Dec 8, 2024</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-900">$320</div>
+                                <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Completed</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-orange-100 rounded-lg">
+                                    <i class="ri-restaurant-fill text-orange-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Food Security Program</div>
+                                    <div class="text-sm text-gray-500">Dec 5, 2024</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-900">$150</div>
+                                <div class="text-xs text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">Processing</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-red-100 rounded-lg">
+                                    <i class="ri-shield-cross-fill text-red-600"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Emergency Relief</div>
+                                    <div class="text-sm text-gray-500">Dec 1, 2024</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-900">$500</div>
+                                <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button class="text-primary hover:bg-blue-50 px-4 py-2 rounded-lg font-medium whitespace-nowrap">
+                            View All Donations
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request Status Panel -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Request Status</h2>
+                        <div class="flex items-center gap-2">
+                            <div class="px-3 py-1 bg-primary text-white text-sm rounded-full">Active: 3</div>
+                            <div class="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-full">Total: 8</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-6">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-lg">
+                                        <i class="ri-book-3-fill text-blue-600 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Educational Materials</div>
+                                        <div class="text-sm text-gray-500">Submitted Dec 10, 2024</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">Pending</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="text-gray-900">$450 / $800</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 56%"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium whitespace-nowrap">
+                                    View Details
+                                </button>
+                                <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm whitespace-nowrap">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-lg">
+                                        <i class="ri-hospital-fill text-green-600 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Medical Treatment</div>
+                                        <div class="text-sm text-gray-500">Submitted Dec 5, 2024</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Approved</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="text-gray-900">$1,200 / $1,200</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-secondary h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium whitespace-nowrap">
+                                    View Details
+                                </button>
+                                <button class="text-secondary hover:bg-green-50 px-3 py-1 rounded text-sm font-medium whitespace-nowrap">
+                                    Download Receipt
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-lg">
+                                        <i class="ri-home-heart-fill text-purple-600 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Housing Support</div>
+                                        <div class="text-sm text-gray-500">Submitted Nov 28, 2024</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">In Review</div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="text-gray-900">$0 / $2,500</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium whitespace-nowrap">
+                                    View Details
+                                </button>
+                                <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm whitespace-nowrap">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button class="text-primary hover:bg-blue-50 px-4 py-2 rounded-lg font-medium whitespace-nowrap">
+                            View All Requests
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script id="notifications">
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationBell = document.querySelector('.ri-notification-3-line').parentElement;
+            
+            notificationBell.addEventListener('click', function() {
+                alert('You have 3 new notifications:\n• New donation received: $150\n• Request approved: Medical Treatment\n• Monthly report available');
+            });
+        });
+    </script>
+
+    <script id="user-menu">
+        document.addEventListener('DOMContentLoaded', function() {
+            const userMenu = document.querySelector('.ri-arrow-down-s-line').parentElement.parentElement;
+            
+            userMenu.addEventListener('click', function() {
+                const menu = document.createElement('div');
+                menu.className = 'absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50';
+                menu.innerHTML = `
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profile Settings</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Donation History</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Help & Support</a>
+                    <hr class="my-2">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sign Out</a>
+                `;
+                
+                userMenu.style.position = 'relative';
+                userMenu.appendChild(menu);
+                
+                setTimeout(() => {
+                    document.addEventListener('click', function removeMenu(e) {
+                        if (!userMenu.contains(e.target)) {
+                            menu.remove();
+                            document.removeEventListener('click', removeMenu);
+                        }
+                    });
+                }, 100);
+            });
+        });
+    </script>
+
+    <script id="search-functionality">
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('input[placeholder="Search donations..."]');
+            
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const donationItems = document.querySelectorAll('.space-y-4 > div');
+                
+                donationItems.forEach(item => {
+                    const donationName = item.querySelector('.font-medium').textContent.toLowerCase();
+                    if (donationName.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script id="button-interactions">
+        document.addEventListener('DOMContentLoaded', function() {
+            const donateBtn = document.querySelector('button:has(.ri-hand-coin-line)');
+            const requestBtn = document.querySelector('button:has(.ri-hand-heart-line)');
+            
+            donateBtn.addEventListener('click', function() {
+                alert('Redirecting to donation form...');
+            });
+            
+            requestBtn.addEventListener('click', function() {
+                alert('Redirecting to help request form...');
+            });
+        });
+    </script>
+</body>
+</html>

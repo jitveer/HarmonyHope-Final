@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Together We Make a Difference - Internal Donation Platform</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B6B',
+                        secondary: '#4ECDC4'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .floating-animation:nth-child(2) {
+            animation-delay: -2s;
+        }
+        .floating-animation:nth-child(3) {
+            animation-delay: -4s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FFF5F5 0%, #F0FDFA 50%, #FEF7FF 100%);
+        }
+        .hero-illustration {
+            background: url('https://readdy.ai/api/search-image?query=Modern%20flat%20illustration%20of%20diverse%20Indian%20office%20employees%20holding%20hands%20in%20a%20circle%2C%20smiling%20faces%2C%20professional%20attire%20including%20sarees%20and%20business%20suits%2C%20warm%20pastel%20colors%2C%20soft%20lighting%2C%20unity%20and%20teamwork%20concept%2C%20corporate%20diversity%2C%20clean%20vector%20art%20style%2C%20harmonious%20composition%2C%20hope%20and%20togetherness%20theme%2C%20isolated%20on%20soft%20gradient%20background%2C%20high-quality%20digital%20art&width=600&height=500&seq=hero-main&orientation=landscape') center/cover no-repeat;
+        }
+        .floating-icon {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <header class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors cursor-pointer">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors cursor-pointer">About</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors cursor-pointer">Programs</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors cursor-pointer">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 flex items-center justify-center">
+                        <i class="ri-user-line text-xl text-gray-600 cursor-pointer"></i>
+                    </div>
+                    <div class="w-8 h-8 flex items-center justify-center md:hidden">
+                        <i class="ri-menu-line text-xl text-gray-600 cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <section class="relative min-h-screen flex items-center overflow-hidden">
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="floating-animation absolute top-20 left-10 floating-icon rounded-full p-3">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-heart-fill text-primary"></i>
+                    </div>
+                </div>
+                <div class="floating-animation absolute top-32 right-20 floating-icon rounded-full p-3">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-hand-heart-line text-secondary"></i>
+                    </div>
+                </div>
+                <div class="floating-animation absolute bottom-32 left-16 floating-icon rounded-full p-3">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-coin-line text-yellow-500"></i>
+                    </div>
+                </div>
+                <div class="floating-animation absolute top-1/2 left-1/4 floating-icon rounded-full p-2">
+                    <div class="w-4 h-4 flex items-center justify-center">
+                        <i class="ri-gift-line text-pink-500"></i>
+                    </div>
+                </div>
+                <div class="floating-animation absolute bottom-40 right-1/4 floating-icon rounded-full p-2">
+                    <div class="w-4 h-4 flex items-center justify-center">
+                        <i class="ri-group-line text-blue-500"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div class="space-y-6">
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                                Together We Make a
+                                <span class="text-primary">Difference</span>
+                            </h1>
+                            <p class="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-lg">
+                                Join our internal donation platform where colleagues support colleagues. Every contribution creates ripples of hope and positive change within our workplace community.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button class="!rounded-button bg-primary text-white px-8 py-4 text-lg font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center justify-center space-x-2">
+                                <div class="w-5 h-5 flex items-center justify-center">
+                                    <i class="ri-heart-fill"></i>
+                                </div>
+                                <span>Donate Now</span>
+                            </button>
+                            <button class="!rounded-button border-2 border-secondary text-secondary px-8 py-4 text-lg font-semibold hover:bg-secondary hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2">
+                                <div class="w-5 h-5 flex items-center justify-center">
+                                    <i class="ri-hand-heart-line"></i>
+                                </div>
+                                <span>Request Help</span>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">₹2.4M</div>
+                                <div class="text-sm text-gray-600">Total Donated</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary mb-2">1,247</div>
+                                <div class="text-sm text-gray-600">Lives Impacted</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-yellow-500 mb-2">89%</div>
+                                <div class="text-sm text-gray-600">Participation</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="hero-illustration w-full h-96 lg:h-[500px] rounded-2xl shadow-2xl"></div>
+                        
+                        <div class="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <div class="w-6 h-6 flex items-center justify-center">
+                                        <i class="ri-team-fill text-primary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">Active Donors</div>
+                                    <div class="text-sm text-gray-600">342 colleagues</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute -top-6 -right-6 bg-white rounded-xl p-4 shadow-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                                    <div class="w-6 h-6 flex items-center justify-center">
+                                        <i class="ri-shield-check-fill text-secondary"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">Verified</div>
+                                    <div class="text-sm text-gray-600">100% Secure</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Simple steps to make a meaningful impact in your colleague's life</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center group">
+                        <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-user-add-line text-2xl text-primary"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Sign Up</h3>
+                        <p class="text-gray-600">Create your profile using your company email and join our caring community</p>
+                    </div>
+                    <div class="text-center group">
+                        <div class="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-search-line text-2xl text-secondary"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Browse Causes</h3>
+                        <p class="text-gray-600">Explore verified requests from colleagues who need support</p>
+                    </div>
+                    <div class="text-center group">
+                        <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <i class="ri-heart-fill text-2xl text-yellow-600"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Make Impact</h3>
+                        <p class="text-gray-600">Contribute any amount and see the direct impact of your generosity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Recent Success Stories</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">See how our community has come together to support each other</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="w-full h-48 rounded-lg mb-4 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=Indian%20woman%20in%20hospital%20bed%20smiling%2C%20medical%20equipment%2C%20family%20support%2C%20hope%20and%20recovery%2C%20warm%20lighting%2C%20emotional%20moment%2C%20healthcare%20setting%2C%20positive%20atmosphere%2C%20high-quality%20photography&width=300&height=200&seq=story1&orientation=landscape" alt="Medical Support" class="w-full h-full object-cover object-top">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Medical Emergency Support</h3>
+                        <p class="text-gray-600 mb-4">Priya from HR received ₹1.2L for her mother's surgery. Thanks to 89 colleagues who contributed.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-semibold">Goal: ₹1.5L</span>
+                            <span class="text-secondary font-semibold">Raised: ₹1.2L</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                            <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="w-full h-48 rounded-lg mb-4 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=Indian%20family%20celebrating%20child%20education%2C%20graduation%20ceremony%2C%20books%20and%20academic%20achievement%2C%20joyful%20moment%2C%20bright%20future%2C%20educational%20success%2C%20warm%20family%20portrait%2C%20high-quality%20photography&width=300&height=200&seq=story2&orientation=landscape" alt="Education Support" class="w-full h-full object-cover object-top">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Education Fund</h3>
+                        <p class="text-gray-600 mb-4">Rajesh's daughter can now attend engineering college. 156 colleagues made this dream possible.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-semibold">Goal: ₹3L</span>
+                            <span class="text-secondary font-semibold">Raised: ₹3.2L</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                            <div class="bg-secondary h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="w-full h-48 rounded-lg mb-4 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=Indian%20family%20in%20new%20home%2C%20house%20keys%20ceremony%2C%20happy%20moment%2C%20home%20ownership%2C%20new%20beginning%2C%20family%20celebration%2C%20warm%20lighting%2C%20domestic%20happiness%2C%20high-quality%20photography&width=300&height=200&seq=story3&orientation=landscape" alt="Emergency Housing" class="w-full h-full object-cover object-top">
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Emergency Housing</h3>
+                        <p class="text-gray-600 mb-4">Anita's family found temporary housing after flooding. 67 colleagues provided immediate relief.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-primary font-semibold">Goal: ₹80K</span>
+                            <span class="text-secondary font-semibold">Raised: ₹95K</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <button class="!rounded-button bg-secondary text-white px-8 py-3 font-semibold hover:bg-secondary/90 transition-colors cursor-pointer">
+                        View All Stories
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script id="floating-animations">
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.querySelectorAll('.floating-animation');
+            
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = `-${index * 2}s`;
+            });
+        });
+    </script>
+
+    <script id="smooth-scrolling">
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script id="button-interactions">
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+                
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-2px)';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+
+    <script id="card-hover-effects">
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.shadow-lg');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

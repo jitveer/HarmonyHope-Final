@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareCorp - Internal Donation Platform</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B6B',
+                        secondary: '#506BE6'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #E8F4FF 0%, #FFF0F0 100%);
+        }
+        .floating-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+        .floating-icon:nth-child(2) {
+            animation-delay: -2s;
+        }
+        .floating-icon:nth-child(3) {
+            animation-delay: -4s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .donation-counter {
+            counter-reset: donations;
+            animation: countUp 2s ease-out;
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <nav class="w-full bg-white/90 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-['Pacifico'] text-gray-800">CareCorp</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors">About</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors">Impact</a>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors">Support</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 flex items-center justify-center">
+                        <i class="ri-notification-line text-gray-600 text-lg"></i>
+                    </div>
+                    <div class="w-8 h-8 flex items-center justify-center">
+                        <i class="ri-user-line text-gray-600 text-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-bg relative overflow-hidden min-h-[80vh] flex items-center">
+        <div class="absolute inset-0" style="background-image: url('https://readdy.ai/api/search-image?query=Modern%20flat%20illustration%20of%20diverse%20Indian%20office%20employees%20in%20business%20attire%20holding%20hands%20in%20unity%20circle%20on%20soft%20pastel%20gradient%20background%20with%20floating%20donation%20icons%20hearts%20hands%20coins%20warm%20lighting%20harmony%20hope%20theme%20left%20side%20white%20space%20for%20text%20right%20side%20illustration%20clean%20modern%20UI%20style%20high%20quality%20web%20design%20concept&width=1920&height=1080&seq=hero-charity-1&orientation=landscape'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+        
+        <div class="absolute inset-0 bg-white/20"></div>
+        
+        <div class="floating-icon absolute top-20 left-20 w-12 h-12 flex items-center justify-center bg-white/30 rounded-full">
+            <i class="ri-heart-line text-primary text-xl"></i>
+        </div>
+        <div class="floating-icon absolute top-40 right-32 w-10 h-10 flex items-center justify-center bg-white/30 rounded-full">
+            <i class="ri-hand-heart-line text-secondary text-lg"></i>
+        </div>
+        <div class="floating-icon absolute bottom-32 left-32 w-14 h-14 flex items-center justify-center bg-white/30 rounded-full">
+            <i class="ri-coins-line text-primary text-2xl"></i>
+        </div>
+
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-6">
+                        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                            Empowering Our <span class="text-primary">Community</span> Through Collective Care
+                        </h1>
+                        <p class="text-xl text-gray-700 leading-relaxed">
+                            Join our internal donation platform where colleagues support colleagues. Together, we create a safety net that ensures no team member faces challenges alone.
+                        </p>
+                        <p class="text-lg text-gray-600">
+                            From medical emergencies to educational support, our platform connects those who can give with those who need help, fostering a culture of compassion and unity.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-primary text-white px-8 py-4 !rounded-button font-semibold text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap flex items-center justify-center gap-3">
+                            <div class="w-5 h-5 flex items-center justify-center">
+                                <i class="ri-heart-fill"></i>
+                            </div>
+                            Donate Now
+                        </button>
+                        <button class="border-2 border-secondary text-secondary px-8 py-4 !rounded-button font-semibold text-lg hover:bg-secondary hover:text-white transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-3">
+                            <div class="w-5 h-5 flex items-center justify-center">
+                                <i class="ri-hand-heart-line"></i>
+                            </div>
+                            Request Help
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-8 pt-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900 donation-counter">₹2,45,000</div>
+                            <div class="text-sm text-gray-600">Total Donated</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900">127</div>
+                            <div class="text-sm text-gray-600">Families Helped</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900">89%</div>
+                            <div class="text-sm text-gray-600">Participation Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative lg:block hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/80 to-transparent"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">How It Works</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our platform makes it simple to give and receive support within our company community
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 bg-gray-50 rounded-2xl">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-user-add-line text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Create Request</h3>
+                    <p class="text-gray-600">
+                        Submit your support request with details about your situation. All requests are reviewed with care and confidentiality.
+                    </p>
+                </div>
+
+                <div class="text-center p-8 bg-gray-50 rounded-2xl">
+                    <div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-community-line text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Community Review</h3>
+                    <p class="text-gray-600">
+                        Our volunteer committee reviews requests to ensure they meet our guidelines and determine the best way to provide support.
+                    </p>
+                </div>
+
+                <div class="text-center p-8 bg-gray-50 rounded-2xl">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+                        <i class="ri-heart-fill text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Receive Support</h3>
+                    <p class="text-gray-600">
+                        Approved requests are shared with the community, and colleagues can contribute directly to help their team members.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                        Recent Success Stories
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-8">
+                        See how our community has come together to support colleagues in their time of need
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full">
+                                    <i class="ri-hospital-line text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-2">Medical Emergency Support</h4>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                        Priya from Marketing received ₹85,000 for her mother's surgery from 42 colleagues
+                                    </p>
+                                    <div class="flex items-center gap-2 text-sm text-primary">
+                                        <div class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-check-line"></i>
+                                        </div>
+                                        Completed in 3 days
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-secondary/10 rounded-full">
+                                    <i class="ri-graduation-cap-line text-secondary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 mb-2">Education Fund</h4>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                        Rajesh from IT received ₹45,000 for his daughter's engineering college fees
+                                    </p>
+                                    <div class="flex items-center gap-2 text-sm text-secondary">
+                                        <div class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-check-line"></i>
+                                        </div>
+                                        Funded by 28 contributors
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20diverse%20Indian%20office%20team%20celebrating%20together%20in%20modern%20workplace%20showing%20unity%20support%20and%20teamwork%20warm%20lighting%20contemporary%20office%20environment%20people%20smiling%20and%20supporting%20each%20other%20clean%20modern%20photography%20style%20high%20quality%20corporate%20culture&width=600&height=400&seq=success-stories-1&orientation=landscape" 
+                         alt="Team celebrating success" 
+                         class="w-full h-96 object-cover object-top rounded-2xl shadow-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Support Categories</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    We provide assistance across various life situations that our colleagues may face
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl border border-red-100">
+                    <div class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-lg mb-4">
+                        <i class="ri-hospital-line text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Medical Emergency</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Support for unexpected medical expenses and treatments
+                    </p>
+                    <div class="text-sm text-red-600 font-medium">23 Active Cases</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
+                    <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg mb-4">
+                        <i class="ri-graduation-cap-line text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Education Support</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Helping with children's education and skill development
+                    </p>
+                    <div class="text-sm text-blue-600 font-medium">15 Active Cases</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-100">
+                    <div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg mb-4">
+                        <i class="ri-home-heart-line text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Family Crisis</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Support during family emergencies and difficult times
+                    </p>
+                    <div class="text-sm text-green-600 font-medium">8 Active Cases</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border border-purple-100">
+                    <div class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg mb-4">
+                        <i class="ri-hand-heart-line text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">General Support</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Other situations where community support makes a difference
+                    </p>
+                    <div class="text-sm text-purple-600 font-medium">12 Active Cases</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-primary text-white">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-6">
+                Ready to Make a Difference?
+            </h2>
+            <p class="text-xl mb-8 opacity-90">
+                Join thousands of colleagues who believe in the power of community support. Every contribution, no matter the size, creates ripples of positive change.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-primary px-8 py-4 !rounded-button font-semibold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl whitespace-nowrap flex items-center justify-center gap-3">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-heart-fill"></i>
+                    </div>
+                    Start Donating
+                </button>
+                <button class="border-2 border-white text-white px-8 py-4 !rounded-button font-semibold text-lg hover:bg-white hover:text-primary transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-3">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-question-line"></i>
+                    </div>
+                    Learn More
+                </button>
+            </div>
+
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold">₹12.5L</div>
+                    <div class="text-sm opacity-80">Total Impact</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">340+</div>
+                    <div class="text-sm opacity-80">Active Donors</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">95%</div>
+                    <div class="text-sm opacity-80">Success Rate</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold">24h</div>
+                    <div class="text-sm opacity-80">Avg Response</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-['Pacifico'] mb-4">CareCorp</h3>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Building a stronger, more supportive workplace community through collective care and compassion.
+                    </p>
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors cursor-pointer">
+                            <i class="ri-facebook-fill text-lg"></i>
+                        </div>
+                        <div class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors cursor-pointer">
+                            <i class="ri-twitter-fill text-lg"></i>
+                        </div>
+                        <div class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors cursor-pointer">
+                            <i class="ri-linkedin-fill text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">How It Works</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Success Stories</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Guidelines</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 CareCorp Internal Donation Platform. All rights reserved.
+                </p>
+                <p class="text-gray-400 text-sm mt-4 md:mt-0">
+                    Made with <span class="text-primary">❤</span> for our amazing team
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script id="hero-animations">
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.donation-counter');
+            
+            const animateCounter = (counter, target) => {
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = '₹2,45,000';
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = '₹' + Math.floor(current).toLocaleString();
+                    }
+                }, 20);
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target, 245000);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            counters.forEach(counter => observer.observe(counter));
+        });
+    </script>
+
+    <script id="smooth-scroll">
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollIndicator = document.querySelector('.animate-bounce').parentElement;
+            
+            scrollIndicator.addEventListener('click', function() {
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <script id="button-interactions">
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
