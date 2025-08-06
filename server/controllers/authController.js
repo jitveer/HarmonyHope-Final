@@ -8,7 +8,9 @@ function generateOtp() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+
 const registerUser = async (req, res) => {
+    
     // Added password to destructure from req.body
     const { name, email, phone, password } = req.body;
 
@@ -50,10 +52,14 @@ const registerUser = async (req, res) => {
     }
 };
 
+
+
+
 const verifyOtp = async (req, res) => {
     const { email, otp } = req.body;
     try {
         const existingOtp = await Otp.findOne({ email });
+        console.log(await Otp.findOne({ email }));
         if (!existingOtp || existingOtp.otp != otp) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
@@ -67,12 +73,12 @@ const verifyOtp = async (req, res) => {
         let user = await User.findOne({ email });
         if (!user) {
             // Use name, phone, password from OTP document
-            user = new User({ 
-                name: existingOtp.name, 
-                email, 
-                phone: existingOtp.phone, 
-                password: existingOtp.password, 
-                isVerified: true 
+            user = new User({
+                name: existingOtp.name,
+                email,
+                phone: existingOtp.phone,
+                password: existingOtp.password,
+                isVerified: true
             });
             await user.save();
         } else {
@@ -89,7 +95,8 @@ const verifyOtp = async (req, res) => {
         res.status(200).json({ message: "OTP verified", token });
 
     } catch (err) {
-        res.status(500).json({ message: "Server error" });
+        console.error('Error in verifyOtp:', err);
+        res.status(500).json({ message: "Server error", error: err.message });
     }
 }
 

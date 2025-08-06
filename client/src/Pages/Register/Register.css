@@ -1,10 +1,10 @@
 .register-container {
-  min-height: 100vh;
+  min-height: 90vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: 1.5rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -127,74 +127,6 @@
   display: none;
 }
 
-.otp-section {
-  background: #f7f8ff;
-  border-radius: 10px;
-  padding: 1rem 1rem 0.5rem 1rem;
-  margin-bottom: 1.25rem;
-  border: 1.5px solid #e1e5e9;
-  transition: all 0.2s;
-}
-
-.otp-section.hidden {
-  display: none;
-}
-
-.otp-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.7rem;
-}
-
-.otp-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 0.45rem 1.1rem;
-  font-size: 0.97rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
-}
-
-.otp-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.otp-inputs {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 0.7rem;
-}
-
-.otp-input {
-  width: 2.2rem;
-  height: 2.2rem;
-  text-align: center;
-  font-size: 1.3rem;
-  border: 2px solid #e1e5e9;
-  border-radius: 7px;
-  background: #fff;
-  transition: border-color 0.2s;
-}
-
-.otp-input:focus {
-  border-color: #667eea;
-}
-
-.otp-resend {
-  text-align: right;
-  margin-bottom: 0.5rem;
-}
-
-#countdown {
-  color: #667eea;
-  font-weight: 500;
-}
 
 .role-label {
   margin-bottom: 0.7rem;
@@ -303,11 +235,12 @@
   justify-content: center;
   gap: 0.7rem;
   margin-top: 0.2rem;
+  margin-bottom: 2rem;
   overflow: hidden;
 }
 
 .submit-btn:disabled {
-  opacity: 0.7;
+  opacity: 1;
   cursor: not-allowed;
 }
 
