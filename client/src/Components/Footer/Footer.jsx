@@ -8,7 +8,7 @@ const Footer = () => {
                 <div className="section-container">
                     <div className={style["footer-grid"]}>
                         <div className={style["footer-brand"]}>
-                            <h3 className={style["footer-brand-title"]}>CareCorp</h3>
+                            <h3 className={style["footer-brand-title"]}>Harmony Hope</h3>
                             <p className={style["footer-brand-description"]}>
                                 Building a stronger, more supportive workplace community through collective care and compassion.
                             </p>

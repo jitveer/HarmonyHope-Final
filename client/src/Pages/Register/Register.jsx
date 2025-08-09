@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 
 function Register() {
 
@@ -45,8 +46,7 @@ function Register() {
 
             if (response.ok) {
                 console.log("Registration successful:", data);
-                alert("Registration successful!");
-                navigate("/verify-otp", { state: { myData: data } });
+                navigate("/verify-otp", { state: { email: email } });
             } else {
                 console.error("Error:", data);
                 alert(data.message || "Registration failed.");

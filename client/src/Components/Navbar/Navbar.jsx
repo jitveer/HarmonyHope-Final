@@ -35,7 +35,7 @@ function Navbar() {
                                 <i className="ri-notification-line"></i>
                             </div>
                             <div className={style["navbar-icon"]}>
-                                <Link to="/login"><i className="ri-user-line"></i></Link>
+                                <Link to="/user-profile"><i className="ri-user-line"></i></Link>
                             </div>
 
                             {/* Mobile menu button */}

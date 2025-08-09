@@ -157,6 +157,17 @@ const Login = ({ onLogin }) => {
     setFormData(prev => ({ ...prev, password: '', otp: '' }));
   };
 
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className="login-container">
       <div className="login-card">
@@ -230,16 +241,7 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
 
-        <div className="login-footer">
-          <button 
-            type="button" 
-            className="toggle-method-button"
-            onClick={toggleLoginMethod}
-            disabled={isLoading}
-          >
-            {showOtpField ? 'Use Password Login' : 'Use OTP Login'}
-          </button>
-          
+        <div className="login-footer">          
           <div className="help-links">
             <a href="/forgot-password">Forgot Password?</a>
             <Link to="/register">Don't have an account? Sign up</Link>

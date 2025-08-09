@@ -1,35 +1,139 @@
-import React from "react"
-import './Register.css'
-import './OtpVerify.css'
-import { Link } from "react-router-dom"
-
+import React, { useState, useEffect, useRef } from "react";
+import './Register.css';
+import './OtpVerify.css';
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const OtpVerify = () => {
+
+    const location = useLocation();
+    const navigation = useNavigate();
+    const { email } = location.state || {};
+
+    const [otp, setOtp] = useState(Array(6).fill(""));
+    const [timer, setTimer] = useState(60);
+    const [resendVisible, setResendVisible] = useState(false);
+    const inputsRef = useRef([]);
+
+    useEffect(() => {
+        if (timer > 0) {
+            const interval = setInterval(() => setTimer(prev => prev - 1), 1000);
+            return () => clearInterval(interval);
+        } else {
+            setResendVisible(true);
+        }
+    }, [timer]);
+
+    const handleChange = (e, index) => {
+        const value = e.target.value;
+        if (!/^[0-9]$/.test(value) && value !== "") return;
+
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
+        console.log(otp);
+
+        if (value !== "" && index < 5) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
+    const handleResend = () => {
+        setOtp(Array(6).fill(""));
+        setTimer(60);
+        setResendVisible(false);
+        inputsRef.current[0]?.focus();
+        //API call to resend OTP
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const otpCode = otp.join("");
+        console.log("Entered OTP:", otp);
+        // Call backend to verify this OTP
+
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    otp: otpCode
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                console.log(" OTP Verified Successfully: ", data);
+                alert("You are succesfully register");
+                navigation("/user-dashboard", { state: { email: email } });
+            } else {
+                console.error("OTP Verification Failed:", data.message);
+            }
+        } catch (err) {
+            console.error("Error verifying OTP:", err);
+        }
+
+    };
+
+
     return (
         <div className="otp-container">
             <div className="otp-card">
-                <form className="register-form" autoComplete="off" style={{ display: 'block' }}>
+                <form className="register-form" autoComplete="off" onSubmit={handleSubmit}>
                     <div className="otp-header">
                         <label>Email Verification</label>
                     </div>
 
                     <div className="otp-inputs">
-                        <input type="text" maxLength="1" className="otp-input" data-index="0" inputMode="numeric" autoComplete="one-time-code" />
-                        <input type="text" maxLength="1" className="otp-input" data-index="1" inputMode="numeric" />
-                        <input type="text" maxLength="1" className="otp-input" data-index="2" inputMode="numeric" />
-                        <input type="text" maxLength="1" className="otp-input" data-index="3" inputMode="numeric" />
-                        <input type="text" maxLength="1" className="otp-input" data-index="4" inputMode="numeric" />
-                        <input type="text" maxLength="1" className="otp-input" data-index="5" inputMode="numeric" />
+                        {otp.map((digit, index) => (
+                            <input
+                                key={index}
+                                type="text"
+                                maxLength="1"
+                                className="otp-input"
+                                value={digit}
+                                onChange={(e) => handleChange(e, index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
+                                ref={(el) => (inputsRef.current[index] = el)}
+                                inputMode="numeric"
+                            />
+                        ))}
                     </div>
+
+
+                    {/* RESEND OTP BUTTON & TIMER */}
 
                     <div className="otp-resend" style={{ marginTop: '10px' }}>
-                        <span id="countdown">Resend OTP in (60s)</span>
-                        <button type="button" id="resendOtpBtn" className="otp-btn" disabled style={{ display: 'none' }}>Resend OTP</button>
+                        {!resendVisible ? (
+                            <span id="countdown">Resend OTP in ({timer}s)</span>
+                        ) : (
+                            <button
+                                type="button"
+                                id="resendOtpBtn"
+                                className="otp-btn"
+                                onClick={handleResend}
+                            >
+                                Resend OTP
+                            </button>
+                        )}
                     </div>
 
-
-
-                    <button type="submit" className="submit-btn" style={{ marginTop: '20px' }} disabled>
+                    {/* SUBMIT OTP */}
+                    <button
+                        type="submit"
+                        className="submit-btn"
+                        style={{ marginTop: '20px' }}
+                        disabled={otp.includes("")}
+                    >
                         <span>Verify OTP</span>
                     </button>
                 </form>
@@ -41,7 +145,7 @@ const OtpVerify = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default OtpVerify 
+export default OtpVerify;
