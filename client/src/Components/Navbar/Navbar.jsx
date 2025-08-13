@@ -5,13 +5,73 @@ import { UserTokenVerification } from "../UserTokenVerification/UserTokenVerific
 
 
 function Navbar() {
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isValid, loading } = UserTokenVerification(); // coming from custom hook
+    const { isValid, userId } = UserTokenVerification(); // coming from custom hook
+    const [userName, setUserName] = useState("");
 
 
     // MOBILE MENU TOGGLE
     const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+
+    useEffect(() => {
+
+        if (!userId) return;
+
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("No token found");
+                    return;
+                }
+
+                const res = await fetch(`http://localhost:5000/api/user/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+
+                if (!res.ok) {
+                    console.error("Failed to fetch user data");
+                    return;
+                }
+
+                const data = await res.json();
+                setUserName(data.user.name);
+                console.log(data.user.name);
+
+            } catch (err) {
+                console.error("Error fetching user Data");
+            }
+        }
+
+        fetchUserData();
+
+
+    }, [userId])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return (
         <>
@@ -49,9 +109,15 @@ function Navbar() {
                             <div className={style["navbar-icon"]}>
                                 {
                                     isValid ? (
-                                        <Link to="/user-profile"><i className="ri-user-line"></i></Link>
+                                        <div className={style["profile-icon-container"]}>
+                                            <Link to="/user-profile"><i className="ri-user-line"></i></Link>
+                                            <span>{userName}</span>
+                                        </div>
+
                                     ) : (
-                                        <Link to="/"><i className="ri-user-line"></i></Link>
+                                        <>
+                                            <Link to="/"><i className="ri-user-line"></i></Link>
+                                        </>
                                     )
                                 }
                             </div>

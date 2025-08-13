@@ -1,38 +1,14 @@
-// export const UserTokenVerification = async () => {
-//     const token = localStorage.getItem("token");
-//     if (!token) return false;
 
-//     try {
-//         const res = await fetch("http://localhost:5000/api/user/login", {
-//             method: "GET",
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             },
-//         });
-
-//         if (res.ok) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } catch (error) {
-//         console.error("Token verification failed", error);
-//         return false;
-//     }
-// };
-
-
-// UserTokenVerification();
-
+import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 
 // OUR COUSTOM HOOK
 
-import { useState, useEffect } from "react";
-
 export function UserTokenVerification() {
     const [isValid, setIsValid] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState();
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -51,7 +27,13 @@ export function UserTokenVerification() {
                     },
                 });
 
-                setIsValid(res.ok);
+                if (res.ok) {
+                    setIsValid(true);
+                    const decodedUser = jwtDecode(token);
+                    setUserId(decodedUser.userId);
+                    // console.log(decodedUser.userId)
+                }
+
             } catch (error) {
                 console.error("Token verification failed", error);
                 setIsValid(false);
@@ -61,8 +43,7 @@ export function UserTokenVerification() {
         };
 
         verifyToken();
-    }, [token]); // Empty dependency = component mount hote hi run hoga
+    }, []);
 
-    return { isValid, loading };
+    return { isValid, loading, userId };
 }
-

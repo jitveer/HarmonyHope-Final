@@ -1,16 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const userTokenChecking = require("../middlewares/authenticateUser");
-const User = require("../models/User");
-const { route } = require("./userRegistrationWtihOtp");
-const getUserProfile = require("../controllers/userController");
+const { getUserById, getMyProfile } = require("../controllers/userController");
 
-// Login using token
-router.get("/login", userTokenChecking, async (req, res) => {
-    res.json({ message: "Welcome! You are logged in.", user: req.user });
-})
+// TOKEN VERIFICATION
+router.get("/login", userTokenChecking, (req, res) => {
+  res.json({ message: "Welcome! You are logged in.", user: req.user });
+});
 
-router.get("/profile/getUserProfile", userTokenChecking, getUserProfile);
 
+
+
+
+//
+// router.get("/profile", userTokenChecking, getMyProfile);
+
+
+
+
+
+// GET USER BY ID
+router.get("/:id", userTokenChecking, getUserById);
 
 module.exports = router;
+
+
+//UPDATE USER BY ID
+router.get("")
+
+
+

@@ -17,7 +17,7 @@ function Register() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setRegister({ ...register, [name]: value });
-        console.log(register);
+        // console.log(register);
     }
 
 
@@ -29,7 +29,6 @@ function Register() {
 
         if (!name || !email || !phone || !password) {
             alert("Please fill all fields");
-            console.log(register)
             return;
         }
 

@@ -16,6 +16,21 @@
   padding: 0 1.5rem;
 }
 
+/* .profile-icon-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+} */
+
+.profile-icon-container> span{
+  margin: 0 0.6rem;
+}
+
+
+
+
+
 @media (min-width: 1024px) {
   .navbar-container {
     padding: 0 2rem;

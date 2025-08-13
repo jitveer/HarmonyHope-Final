@@ -1,17 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './UserProfile.module.css';
+import { UserTokenVerification } from '../../Components/UserTokenVerification/UserTokenVerification';
 
 function UserProfile() {
-
     const [editMode, setEditMode] = useState(false);
     const [selectedImage, setSelectedImage] = useState("src/assets/react.svg");
+    const { isValid, userId } = UserTokenVerification(); // ✅ token se userId mil rahi hai
 
     const [formData, setFormData] = useState({
-        name: 'Raja bhai',
-        email: 'raja@gmail.com',
-        phone: '7845859685',
+        name: '',
+        email: '',
+        phone: '',
         password: ''
     });
+
+    // 🟢 userId change hote hi data fetch karo
+    useEffect(() => {
+        if (!userId) return; // agar userId nahi mili to fetch mat karo
+
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("No token found");
+                    return;
+                }
+
+                // ✅ yaha id se call kar rahe hain
+                const res = await fetch(`http://localhost:5000/api/user/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                if (!res.ok) {
+                    console.error("Failed to fetch user data");
+                    return;
+                }
+
+                const data = await res.json();
+
+                // ✅ API response se formData set karna
+                if (data.user) {
+                    setFormData({
+                        name: data.user.name || '',
+                        email: data.user.email || '',
+                        phone: data.user.phone || '',
+                        password: '' // password blank rakhenge
+                    });
+                }
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+            }
+        };
+
+        fetchUserData();
+    }, [userId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,12 +69,11 @@ function UserProfile() {
 
     const toggleEditMode = () => {
         if (editMode) {
-            // 🧠 Save logic here (e.g., API call)
+            // 🧠 Save logic here (API call for update)
             console.log('Saving profile:', formData);
         }
         setEditMode(prev => !prev);
     };
-
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];

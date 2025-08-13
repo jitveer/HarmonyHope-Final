@@ -45,6 +45,7 @@ const Request = () => {
                 setMessage('Request sent successfully!');
                 setAmount('');
                 setReason('');
+                console.log(res)
             } else {
                 setMessage(data.message || 'Something went wrong.');
             }
