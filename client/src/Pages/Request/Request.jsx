@@ -82,6 +82,16 @@ const Request = () => {
                                 required
                             ></textarea>
                         </div>
+                        <div className={styles["request-categories"]}>
+                            <label>Request Categories</label>
+                            <select >
+                                <option>Medical</option>
+                                <option>Education</option>
+                                <option>Emergency</option>
+                                <option>Food</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
                         <div className={styles["request-button"]}>
                             <button type="submit">Request</button>
                         </div>

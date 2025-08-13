@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import './Login.css';
+import { useEffect } from 'react';
+// import { UserTokenVerification } from '../../Components/UserTokenVerification/UserTokenVerification';
+
 
 const Login = ({ onLogin }) => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -14,7 +19,87 @@ const Login = ({ onLogin }) => {
   const [showOtpField, setShowOtpField] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
 
+
+
+  useEffect(() => {
+
+    async function verifyToken() {
+      const verify = await UserTokenVerification();
+      if (verify) {
+        navigate('/user-dashboard', { replace: true });
+      }
+    }
+
+    verifyToken();
+
+
+  }, [navigate])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // TOKEN VERIFICATION
+  // useEffect(() => {
+  //   const verify = async () => {
+  //     const token = localStorage.getItem('token');
+  //     if (!token) return; // token hi nahi to rehne do
+
+  //     try {
+  //       const res = await fetch('http://localhost:5000/api/user/login', {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+
+  //       if (res.ok) {
+  //         // valid token
+  //         navigate('/user-dashboard', { replace: true });
+  //       } else if (res.status === 401 || res.status === 403) {
+  //         // invalid/expired
+  //         localStorage.removeItem('token');
+  //       } else {
+  //         // other errors: optionally handle
+  //         console.warn('Unexpected status:', res.status);
+  //       }
+  //     } catch (e) {
+  //       console.error('Network error verifying token', e);
+  //     }
+  //   };
+
+  //   verify();
+  // }, [navigate]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const handleInputChange = (e) => {
+
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -44,65 +129,65 @@ const Login = ({ onLogin }) => {
     return true;
   };
 
-  const handleOtpLogin = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  // const handleOtpLogin = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateForm()) return;
 
-    setIsLoading(true);
-    setError('');
+  //   setIsLoading(true);
+  //   setError('');
 
-    try {
-      if (!isOtpSent) {
-        // Send OTP
-        const response = await fetch('http://localhost:5000/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.email.split('@')[0], // Use email prefix as name
-            email: formData.email,
-            phone: '0000000000' // Placeholder phone
-          }),
-        });
+  //   try {
+  //     if (!isOtpSent) {
+  //       // Send OTP
+  //       const response = await fetch('http://localhost:5000/api/auth/register', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           name: formData.email.split('@')[0], // Use email prefix as name
+  //           email: formData.email,
+  //           phone: '0000000000' // Placeholder phone
+  //         }),
+  //       });
 
-        const data = await response.json();
-        
-        if (response.ok) {
-          setSuccess('OTP sent to your email!');
-          setIsOtpSent(true);
-        } else {
-          setError(data.message || 'Failed to send OTP');
-        }
-      } else {
-        // Verify OTP
-        const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            otp: formData.otp
-          }),
-        });
+  //       const data = await response.json();
 
-        const data = await response.json();
-        
-        if (response.ok) {
-          setSuccess('Login successful!');
-          localStorage.setItem('token', data.token);
-          if (onLogin) onLogin(data.token);
-        } else {
-          setError(data.message || 'Invalid OTP');
-        }
-      }
-    } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //       if (response.ok) {
+  //         setSuccess('OTP sent to your email!');
+  //         setIsOtpSent(true);
+  //       } else {
+  //         setError(data.message || 'Failed to send OTP');
+  //       }
+  //     } else {
+  //       // Verify OTP
+  //       const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           email: formData.email,
+  //           otp: formData.otp
+  //         }),
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (response.ok) {
+  //         setSuccess('Login successful!');
+  //         localStorage.setItem('token', data.token);
+  //         if (onLogin) onLogin(data.token);
+  //       } else {
+  //         setError(data.message || 'Invalid OTP');
+  //       }
+  //     }
+  //   } catch (err) {
+  //     setError('Network error. Please try again.');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handlePasswordLogin = async (e) => {
     e.preventDefault();
@@ -164,10 +249,6 @@ const Login = ({ onLogin }) => {
 
 
 
-
-
-
-  
   return (
     <div className="login-container">
       <div className="login-card">
@@ -226,8 +307,8 @@ const Login = ({ onLogin }) => {
             </div>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="login-button"
             disabled={isLoading}
           >
@@ -241,7 +322,7 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
 
-        <div className="login-footer">          
+        <div className="login-footer">
           <div className="help-links">
             <a href="/forgot-password">Forgot Password?</a>
             <Link to="/register">Don't have an account? Sign up</Link>

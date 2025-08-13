@@ -74,6 +74,7 @@ const OtpVerify = () => {
             if (res.ok) {
                 console.log(" OTP Verified Successfully: ", data);
                 alert("You are succesfully register");
+                localStorage.setItem("token", data.token);
                 navigation("/user-dashboard", { state: { email: email } });
             } else {
                 console.error("OTP Verification Failed:", data.message);

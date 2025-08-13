@@ -1,18 +1,28 @@
+const express = require('express');
+const router = express.Router();
+
 const User = require("../models/User");
 const Otp = require("../models/Otp");
 const transporter = require('../config/nodemailer');
 const jwt = require("jsonwebtoken");
 
-// FUNCTION TO GENERATE 6 DIGIT OTP
-function generateOtp() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
 
 
-const registerUser = async (req, res) => {
-    
+// function to generate otp
+
+const generateOtp = (length = 6) => 
+  Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
+
+
+
+
+// SENDING USER SINGN IN DATA TO DATABASE 
+router.post('/register', async (req, res) => {
+
     // Added password to destructure from req.body
     const { name, email, phone, password } = req.body;
+
+    console.log(req.body);
 
     // checking empty field, now includes password
     if (!name || !email || !phone || !password) {
@@ -48,14 +58,16 @@ const registerUser = async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Something went wrong' });
+        res.status(500).json({ message: 'Something went wrong backend' });
     }
-};
+});
 
 
 
 
-const verifyOtp = async (req, res) => {
+
+// VERIFY OTP AFTER SENDING USER SINGN IN DATA
+router.post("/verify-otp", async (req, res) => {
     const { email, otp } = req.body;
     try {
         const existingOtp = await Otp.findOne({ email });
@@ -98,6 +110,12 @@ const verifyOtp = async (req, res) => {
         console.error('Error in verifyOtp:', err);
         res.status(500).json({ message: "Server error", error: err.message });
     }
-}
+});
 
-module.exports = { registerUser, verifyOtp };
+
+
+
+
+
+
+module.exports = router;

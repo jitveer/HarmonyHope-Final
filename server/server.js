@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-const authRoutes = require('./routes/auth.js');
-const userRoutes = require('./routes/user.js');
+const userRegistrationWtihOtp = require('./routes/userRegistrationWtihOtp.js');
+const userLoginWithUserProfile = require('./routes/userLoginWithUserProfile.js');
 const donationRoutes = require('./routes/donation.js');
+const requestHelp = require('./routes/requestHelp')
 
 
 const app = express();
@@ -12,14 +13,17 @@ app.use(cors());
 app.use(express.json());
 
 
-// USER RESGISTRATION AND AUTH WITH OTP
-app.use('/api/auth', authRoutes);
+// USER RESGISTRATION AND OTP VERIFICATION
+app.use('/api/auth', userRegistrationWtihOtp);
 
 // USER LOGIN & GET USER PROFILE
-app.use('/api/user', userRoutes);
+app.use('/api/user', userLoginWithUserProfile);
 
 // DONATION API
-app.use('/api', donationRoutes)
+app.use('/api', donationRoutes);
+
+//REQUEST API
+// app.use('/api', requestHelp);
 
 
 

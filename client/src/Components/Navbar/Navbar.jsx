@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Navbar.module.css";
 import { Link } from "react-router-dom";
+import { UserTokenVerification } from "../UserTokenVerification/UserTokenVerification";
 
 
 function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { isValid, loading } = UserTokenVerification(); // coming from custom hook
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen((prev) => !prev);
-    };
 
-    const closeMobileMenu = () => {
-        setIsMobileMenuOpen(false);
-    };
+    // MOBILE MENU TOGGLE
+    const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
+    const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
     return (
         <>
+            {/* <h1>{isValid ? "True" : "False"}</h1> */}
+
             <nav className={style.navbar}>
                 <div className={style["navbar-container"]}>
                     <div className={style["navbar-content"]}>
@@ -26,8 +27,19 @@ function Navbar() {
                         <div className={style["navbar-menu"]}>
                             <Link to="/" className={style["navbar-link"]}>Home</Link>
                             <Link to="/" className={style["navbar-link"]}>About Us</Link>
-                            <Link to="/register" className={style["navbar-link"]}>Register</Link>
-                            <Link to="/login" className={style["navbar-link"]}>Login</Link>
+
+                            {
+                                isValid ? (
+
+                                    <Link to="/user-dashboard" className={style["navbar-link"]}>Dashboard</Link>
+
+                                ) : (
+                                    <>
+                                        <Link to="/login" className={style["navbar-link"]}>Login</Link>
+                                        <Link to="/register" className={style["navbar-link"]}>Register</Link>
+                                    </>
+                                )
+                            }
                         </div>
 
                         <div className={style["navbar-actions"]}>
@@ -35,7 +47,13 @@ function Navbar() {
                                 <i className="ri-notification-line"></i>
                             </div>
                             <div className={style["navbar-icon"]}>
-                                <Link to="/user-profile"><i className="ri-user-line"></i></Link>
+                                {
+                                    isValid ? (
+                                        <Link to="/user-profile"><i className="ri-user-line"></i></Link>
+                                    ) : (
+                                        <Link to="/"><i className="ri-user-line"></i></Link>
+                                    )
+                                }
                             </div>
 
                             {/* Mobile menu button */}
@@ -53,7 +71,7 @@ function Navbar() {
                 </div>
             </nav>
 
-            {/* Side-slide mobile menu overlay */}
+            {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className={style["mobile-menu-backdrop"]} onClick={closeMobileMenu}>
                     <div

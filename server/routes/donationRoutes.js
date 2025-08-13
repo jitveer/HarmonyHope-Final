@@ -6,6 +6,7 @@ const isAdmin = require('../middlewares/isAdmin');
 
 const { getAllDonations } = require('../controllers/donationController');
 
+
 router.get('/admin/donations', authenticateUser, isAdmin, getAllDonations);
 
 

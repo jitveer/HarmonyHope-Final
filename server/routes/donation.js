@@ -6,15 +6,14 @@ const {submitDonation,getUserDonations, getAllDonations, getDonationSummary} = r
 const isAdimin = require('../middlewares/isAdmin');
 
 
-
 // User route: submit donation
 router.post('/donate', authenticateUser, submitDonation);
 
-router.get('/my', authenticateUser, getUserDonations)
+router.get('/my', authenticateUser, getUserDonations);
 
 router.get('/admin/donations', authenticateUser, isAdimin, getAllDonations);
 
-router.get('donations/summary', authenticateUser, isAdimin, getDonationSummary)
+router.get('donations/summary', authenticateUser, isAdimin, getDonationSummary);
 
 
 
