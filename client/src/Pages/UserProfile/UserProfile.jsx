@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import style from './UserProfile.module.css';
 import { UserTokenVerification } from '../../Components/UserTokenVerification/UserTokenVerification';
+import { useNavigate } from 'react-router-dom';
+
 
 function UserProfile() {
     const [editMode, setEditMode] = useState(false);
     const [selectedImage, setSelectedImage] = useState("src/assets/react.svg");
-    const { isValid, userId } = UserTokenVerification(); // ✅ token se userId mil rahi hai
+    const { isValid, userId } = UserTokenVerification(); // token se userId mil rahi hai 
+
+    // const [tokenCheck, setTokenCheck] = useState();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -14,9 +19,72 @@ function UserProfile() {
         password: ''
     });
 
-    // 🟢 userId change hote hi data fetch karo
+
+    // SAVE DATA TO STATE
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+
+    //WHEN EDIT MODE ( UPDATE USER DATA )
+
+    const toggleEditMode = async () => {
+        if (editMode) {
+
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`http://localhost:5000/api/user/${userId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!res.ok) {
+                    console.error("Failed to update user profile");
+                    return;
+                }
+
+                const updatedData = await res.json();
+                alert("Profile Updated");
+                // console.log("Profile updated:", updatedData);
+
+            } catch (err) {
+                console.error("Error updating profile:", err);
+            }
+        }
+
+        setEditMode(prev => !prev);
+    };
+
+
+
+
+    // FOR UPLOADING OR CHANGING NEW PROFILE IMAGE
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setSelectedImage(imageUrl);
+        }
+    };
+
+
+
+
+
+    // FETCHING USER DATA FOR DISPLAY ON PROFILE
+
     useEffect(() => {
-        if (!userId) return; // agar userId nahi mili to fetch mat karo
+
+
+        if (!userId) return;
 
         const fetchUserData = async () => {
             try {
@@ -26,7 +94,7 @@ function UserProfile() {
                     return;
                 }
 
-                // ✅ yaha id se call kar rahe hain
+
                 const res = await fetch(`http://localhost:5000/api/user/${userId}`, {
                     method: "GET",
                     headers: {
@@ -42,13 +110,13 @@ function UserProfile() {
 
                 const data = await res.json();
 
-                // ✅ API response se formData set karna
+
                 if (data.user) {
                     setFormData({
                         name: data.user.name || '',
                         email: data.user.email || '',
                         phone: data.user.phone || '',
-                        password: '' // password blank rakhenge
+                        password: ''
                     });
                 }
             } catch (err) {
@@ -56,32 +124,28 @@ function UserProfile() {
             }
         };
 
+
+        const checkTokens=()=>{
+            if(! isValid){
+                navigate('/');
+            }
+        }
+
         fetchUserData();
+
+
+
+        
+        
     }, [userId]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
 
-    const toggleEditMode = () => {
-        if (editMode) {
-            // 🧠 Save logic here (API call for update)
-            console.log('Saving profile:', formData);
-        }
-        setEditMode(prev => !prev);
-    };
 
-    const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setSelectedImage(imageUrl);
-        }
-    };
+
+
+
+
+
 
     return (
         <div className={style["profile-container"]}>

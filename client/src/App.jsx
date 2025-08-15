@@ -14,7 +14,6 @@ import Request from './Pages/Request/Request';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
 
 
-
 Request
 const App = () => {
     return (
@@ -28,9 +27,9 @@ const App = () => {
 
                 <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/user-profile" element={<UserProfile />} />
-                <Route path="/donate" element={<Donate/>} />
+                <Route path="/donate" element={<Donate />} />
 
-                <Route path="/admin-dashboard" element={<AdminDashboard/>} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
                 <Route path="/request" element={<Request />} />
                 <Route path="*" element={<NoPage />} />

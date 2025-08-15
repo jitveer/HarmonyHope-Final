@@ -67,12 +67,6 @@ function Navbar() {
 
 
 
-
-
-
-
-
-
     return (
         <>
             {/* <h1>{isValid ? "True" : "False"}</h1> */}

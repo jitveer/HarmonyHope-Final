@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userTokenChecking = require("../middlewares/authenticateUser");
-const { getUserById, getMyProfile } = require("../controllers/userController");
+const { getUserById, getMyProfile, updateUserData } = require("../controllers/userController");
 
 // TOKEN VERIFICATION
 router.get("/login", userTokenChecking, (req, res) => {
@@ -9,14 +9,7 @@ router.get("/login", userTokenChecking, (req, res) => {
 });
 
 
-
-
-
-//
 // router.get("/profile", userTokenChecking, getMyProfile);
-
-
-
 
 
 // GET USER BY ID
@@ -26,7 +19,5 @@ module.exports = router;
 
 
 //UPDATE USER BY ID
-router.get("")
-
-
+router.put("/:id", userTokenChecking, updateUserData);
 
