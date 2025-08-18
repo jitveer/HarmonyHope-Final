@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styles from './Request.module.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Request = () => {
     const [reqFormData, setReqFormData] = useState({
@@ -8,13 +10,13 @@ const Request = () => {
         daysToReturn: "",
         reasonForRequest: ""
     });
-
+    
+    const navigate = useNavigate();
     const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setReqFormData(prev => ({ ...prev, [name]: value }));
-        console.log(reqFormData);
     };
 
     const handleSubmit = async (e) => {
@@ -53,6 +55,8 @@ const Request = () => {
                     reasonForRequest: "",
                     daysToReturn: ""
                 });
+                alert("Registration Successful");
+                navigate('/user-dashboard');
             } else {
                 setMessage(data.message || 'Something went wrong.');
             }

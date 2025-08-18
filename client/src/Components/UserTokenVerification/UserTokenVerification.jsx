@@ -1,18 +1,15 @@
-
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-
-
-// OUR COUSTOM HOOK
 
 export function UserTokenVerification() {
     const [isValid, setIsValid] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [userId, setUserId] = useState();
-    const token = localStorage.getItem("token");
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const verifyToken = async () => {
+            const token = localStorage.getItem("token");
+
             if (!token) {
                 setIsValid(false);
                 setLoading(false);
@@ -20,7 +17,8 @@ export function UserTokenVerification() {
             }
 
             try {
-                const res = await fetch("http://localhost:5000/api/user/login", {
+                // Verify token with backend
+                const res = await fetch("http://localhost:5000/api/user/verify", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -29,9 +27,12 @@ export function UserTokenVerification() {
 
                 if (res.ok) {
                     setIsValid(true);
+                    // Decode token locally
                     const decodedUser = jwtDecode(token);
                     setUserId(decodedUser.userId);
-                    // console.log(decodedUser.userId)
+
+                } else {
+                    setIsValid(false);
                 }
 
             } catch (error) {
@@ -43,7 +44,8 @@ export function UserTokenVerification() {
         };
 
         verifyToken();
-    }, []);
+
+    }, []); // ✅ run once on mount
 
     return { isValid, loading, userId };
 }

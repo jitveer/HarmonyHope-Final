@@ -1,39 +1,21 @@
-import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './Login.css';
-import { useEffect } from 'react';
-// import { UserTokenVerification } from '../../Components/UserTokenVerification/UserTokenVerification';
+import { useEffect } from "react";
+
 
 
 const Login = ({ onLogin }) => {
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    otp: ''
+    email: "",
+    password: "",
   });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [showOtpField, setShowOtpField] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-
-
-
-  useEffect(() => {
-
-    async function verifyToken() {
-      const verify = await UserTokenVerification();
-      if (verify) {
-        navigate('/user-dashboard', { replace: true });
-      }
-    }
-
-    verifyToken();
-
-
-  }, [navigate])
 
 
 
@@ -41,165 +23,19 @@ const Login = ({ onLogin }) => {
 
 
 
-
-
-
-
-
-
-
-  // TOKEN VERIFICATION
-  // useEffect(() => {
-  //   const verify = async () => {
-  //     const token = localStorage.getItem('token');
-  //     if (!token) return; // token hi nahi to rehne do
-
-  //     try {
-  //       const res = await fetch('http://localhost:5000/api/user/login', {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-
-  //       if (res.ok) {
-  //         // valid token
-  //         navigate('/user-dashboard', { replace: true });
-  //       } else if (res.status === 401 || res.status === 403) {
-  //         // invalid/expired
-  //         localStorage.removeItem('token');
-  //       } else {
-  //         // other errors: optionally handle
-  //         console.warn('Unexpected status:', res.status);
-  //       }
-  //     } catch (e) {
-  //       console.error('Network error verifying token', e);
-  //     }
-  //   };
-
-  //   verify();
-  // }, [navigate]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const handleInputChange = (e) => {
-
+  function handleChange(e) {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Clear errors when user starts typing
-    if (error) setError('');
-  };
+    setFormData({ ...formData, [name]: value });
+  }
 
-  const validateForm = () => {
-    if (!formData.email) {
-      setError('Email is required');
-      return false;
-    }
-    if (!formData.email.includes('@')) {
-      setError('Please enter a valid email address');
-      return false;
-    }
-    if (!showOtpField && !formData.password) {
-      setError('Password is required');
-      return false;
-    }
-    if (showOtpField && !formData.otp) {
-      setError('OTP is required');
-      return false;
-    }
-    return true;
-  };
-
-  // const handleOtpLogin = async (e) => {
-  //   e.preventDefault();
-  //   if (!validateForm()) return;
-
-  //   setIsLoading(true);
-  //   setError('');
-
-  //   try {
-  //     if (!isOtpSent) {
-  //       // Send OTP
-  //       const response = await fetch('http://localhost:5000/api/auth/register', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           name: formData.email.split('@')[0], // Use email prefix as name
-  //           email: formData.email,
-  //           phone: '0000000000' // Placeholder phone
-  //         }),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (response.ok) {
-  //         setSuccess('OTP sent to your email!');
-  //         setIsOtpSent(true);
-  //       } else {
-  //         setError(data.message || 'Failed to send OTP');
-  //       }
-  //     } else {
-  //       // Verify OTP
-  //       const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           email: formData.email,
-  //           otp: formData.otp
-  //         }),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (response.ok) {
-  //         setSuccess('Login successful!');
-  //         localStorage.setItem('token', data.token);
-  //         if (onLogin) onLogin(data.token);
-  //       } else {
-  //         setError(data.message || 'Invalid OTP');
-  //       }
-  //     }
-  //   } catch (err) {
-  //     setError('Network error. Please try again.');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  const handlePasswordLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
+    setError("");
+    setSuccess("");
     setIsLoading(true);
-    setError('');
 
     try {
-      // For now, simulate a password login
-      // In a real app, you'd call your password login endpoint
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,47 +46,34 @@ const Login = ({ onLogin }) => {
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         setSuccess('Login successful!');
+        alert('Successful login');
         localStorage.setItem('token', data.token);
         if (onLogin) onLogin(data.token);
+
+        // Redirect based on role 
+        if (data.user.role === "admin") navigate("/admin-dashboard");
+        // else if (data.user.role === "superadmin") navigate("/superadmin");
+        else navigate("/user-dashboard");
+
       } else {
-        const data = await response.json();
         setError(data.message || 'Invalid credentials');
       }
-    } catch (err) {
+
+    } catch (error) {
       setError('Network error. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
-  };
 
-  const handleSubmit = (e) => {
-    if (showOtpField) {
-      handleOtpLogin(e);
-    } else {
-      handlePasswordLogin(e);
-    }
-  };
-
-  const toggleLoginMethod = () => {
-    setShowOtpField(!showOtpField);
-    setError('');
-    setSuccess('');
-    setIsOtpSent(false);
-    setFormData(prev => ({ ...prev, password: '', otp: '' }));
-  };
-
-
-
-
-
+    setIsLoading(false);
+  }
 
 
 
   return (
-    <div className="login-container">
+    <div className="LoginContainer">
       <div className="login-card">
         <div className="login-header">
           <h1>HarmonyHope</h1>
@@ -269,68 +92,38 @@ const Login = ({ onLogin }) => {
               type="email"
               placeholder="Enter your email"
               value={formData.email}
-              onChange={handleInputChange}
-              disabled={isLoading}
+              onChange={handleChange}
               required
             />
           </div>
 
-          {!showOtpField ? (
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                required
-              />
-            </div>
-          ) : (
-            <div className="form-group">
-              <label htmlFor="otp">OTP Code</label>
-              <input
-                id="otp"
-                name="otp"
-                type="text"
-                placeholder="Enter 6-digit OTP"
-                value={formData.otp}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                maxLength="6"
-                pattern="[0-9]{6}"
-                required
-              />
-            </div>
-          )}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <button
-            type="submit"
-            className="login-button"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <span className="loading-spinner"></span>
-            ) : showOtpField ? (
-              isOtpSent ? 'Verify OTP' : 'Send OTP'
-            ) : (
-              'Sign In'
-            )}
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <div className="login-footer">
           <div className="help-links">
             <a href="/forgot-password">Forgot Password?</a>
-            <Link to="/register">Don't have an account? Sign up</Link>
+            <a href="/register">Don't have an account? Sign up</a>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Login;

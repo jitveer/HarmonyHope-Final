@@ -328,6 +328,12 @@
   transform: translateY(-2px);
 }
 
+.forDays{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .progress-bar {
   background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
   height: 12px;
@@ -376,6 +382,23 @@
   transition: all 0.3s ease;
   padding: 6px 12px;
   border-radius: 6px;
+}
+
+.request-actions button {
+  font-size: 14px;
+  color: #ff5454;
+  background-color: white;
+  border: 0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.request-actions button:hover {
+  color: white;
+  background-color: #ff3c3c;
 }
 
 .request-actions a:hover {

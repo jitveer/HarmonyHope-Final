@@ -7,16 +7,16 @@ const User = require("../models/User");
 exports.createRequest = async (req, res) => {
   try {
     const { amount, requestCategorie, reasonForRequest, daysToReturn } = req.body;
-    const userId = req.user.userId; 
+    const userId = req.user.userId;
 
-    if (!amount ||!requestCategorie || !reasonForRequest || !daysToReturn) {
+    if (!amount || !requestCategorie || !reasonForRequest || !daysToReturn) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (amount <= 0 || daysToReturn <= 0) {
       return res.status(400).json({ message: "Invalid amount or daysToReturn" });
     }
 
-    const doc = await Request.create({user:userId, amount, requestCategorie, reasonForRequest, daysToReturn }); 
+    const doc = await Request.create({ user: userId, amount, requestCategorie, reasonForRequest, daysToReturn });
     res.status(201).json({ message: "Request submitted", request: doc });
   } catch (err) {
     console.error(err);
@@ -25,18 +25,58 @@ exports.createRequest = async (req, res) => {
 };
 
 
-// Get my requests (User)
 
-exports.getMyRequests = async (req, res) => {
+
+// Request status
+exports.requestStatus = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const list = await Request.find({ userId }).sort({ createdAt: -1 });
-    res.json({ requests: list });
+    const list = await Request.find({ user: userId }).sort({ createdAt: -1 });
+    res.status(201).json({ requests: list });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server Error" });
+  }
+}
+
+
+// REQUEST DELETE
+exports.requestDelete = async (req, res) => {
+  try {
+    const userId = req.user.userId; // token se aaya user
+    const requestId = req.params.id; // route se aaya requestId
+
+    // Check request exist karti hai ya nahi
+    const request = await Request.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+
+    // Check ki yeh request usi user ki hai
+    if (request.user.toString() !== userId) {
+      return res.status(403).json({ message: "Not authorized to delete this request" });
+    }
+
+    // Delete karo
+    const deletedRequest = await Request.findByIdAndDelete(requestId);
+
+    res.status(200).json({
+      message: "Request deleted successfully",
+      deletedRequest
+    });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.log(err);
+    res.status(500).json({ message: "Server Error" });
   }
 };
+
+
+
+
+
+
+
 
 // Admin: Get all requests (with optional ?status=pending/approved/rejected)
 exports.getAllRequests = async (req, res) => {
@@ -46,16 +86,22 @@ exports.getAllRequests = async (req, res) => {
     if (status) filter.status = status;
 
     const list = await Request.find(filter)
-      .populate("userId", "name email")
+      .populate("user", "name email")
       .populate("reviewedBy", "name email")
       .sort({ createdAt: -1 });
 
     res.json({ requests: list });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error hai" });
   }
 };
+
+
+
+
+
+
 
 // Admin: Update status (approve/reject)
 exports.updateRequestStatus = async (req, res) => {
@@ -95,7 +141,11 @@ exports.updateRequestStatus = async (req, res) => {
 
 
 
-// // USER HELP REQUEST SENT 
+
+
+
+
+// // USER HELP REQUEST SENT
 
 // const submitRequest = async (req, res) => {
 

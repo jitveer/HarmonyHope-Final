@@ -3,12 +3,13 @@ const User = require("../models/User");
 const isAdmin = async (req, res, next) => {
   try {
     const userId = req.user.userId;
-    const user = await User.findById(userId).select("role isAdmin");
+    const user = await User.findById(userId).select("role is admin");
 
     const flag = user?.role === "admin" || user?.isAdmin === true;
     if (!flag) {
       return res.status(403).json({ message: "Access denied. Admins only." });
     }
+    console.log("Admin hai");
     next();
   } catch (err) {
     console.error(err);
@@ -17,22 +18,3 @@ const isAdmin = async (req, res, next) => {
 };
 
 module.exports = isAdmin;
-
-
-
-
-
-
-
-
-
-
-// const isAdimin = (req, res, next) => {
-//     if (req.user && req.user.role === 'admin') {
-//         next();
-//     } else {
-//         return res.status(403).json({ message: "Access denied. Admins only." });
-//     };
-// }
-
-// module.exports = isAdimin;

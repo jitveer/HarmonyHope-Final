@@ -8,23 +8,25 @@ const jwt = require("jsonwebtoken");
 
 
 
+
 // function to generate otp
-
-const generateOtp = (length = 6) => 
-  Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
-
+const generateOtp = (length = 6) =>
+    Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
 
 
 
-// SENDING USER SINGN IN DATA TO DATABASE 
+
+
+
+// ================== REGISTER (Send OTP) ==================
+
 router.post('/register', async (req, res) => {
-
-    // Added password to destructure from req.body
-    const { name, email, phone, password } = req.body;
+    // Added role to destructure
+    const { name, email, phone, password, role } = req.body;
 
     console.log(req.body);
 
-    // checking empty field, now includes password
+    // checking empty field
     if (!name || !email || !phone || !password) {
         return res.status(400).json({ message: 'All fields required' });
     }
@@ -32,26 +34,34 @@ router.post('/register', async (req, res) => {
     try {
         const existingUser = await User.findOne({ email });
 
-        //checking Existing User on Database
+        // if already registered & verified
         if (existingUser && existingUser.isVerified) {
             return res.status(400).json({ message: 'User already registered' });
         }
 
-        // Call function to generate OTP 
+        // generate OTP 
         const otpCode = generateOtp();
         const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
         await Otp.deleteMany({ email });    // remove old otp
 
-        // Store password, name, phone in OTP for later user creation
-        await Otp.create({ email, otp: otpCode, expiresAt, name, phone, password });
+        // Store all signup data inside Otp collection temporarily
+        await Otp.create({
+            email,
+            otp: otpCode,
+            expiresAt,
+            name,
+            phone,
+            password,
+            role: role || "user"   // if not provided, set default role "user"
+        });
 
         // SEND MAIL
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
-            subject: "HarmonyHope OTP Verification", // fixed typo: Subject -> subject
-            html: `<p>Your OTP is <b>${otpCode}</b>. It is valid for 10 minutes </p>`
+            subject: "HarmonyHope OTP Verification",
+            html: `<p>Your OTP is <b>${otpCode}</b>. It is valid for 10 minutes.</p>`
         });
 
         res.json({ message: 'OTP sent successfully to your email.' });
@@ -66,13 +76,14 @@ router.post('/register', async (req, res) => {
 
 
 
-// VERIFY OTP AFTER SENDING USER SINGN IN DATA
+
+// ================== VERIFY OTP ( Create User) ==================
 router.post("/verify-otp", async (req, res) => {
     const { email, otp } = req.body;
     try {
         const existingOtp = await Otp.findOne({ email });
-        console.log(await Otp.findOne({ email }));
-        if (!existingOtp || existingOtp.otp != otp) {
+
+        if (!existingOtp || existingOtp.otp !== otp) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
@@ -84,12 +95,13 @@ router.post("/verify-otp", async (req, res) => {
         // Create user if not exists
         let user = await User.findOne({ email });
         if (!user) {
-            // Use name, phone, password from OTP document
+            // Use data stored in OTP collection
             user = new User({
                 name: existingOtp.name,
                 email,
                 phone: existingOtp.phone,
                 password: existingOtp.password,
+                role: existingOtp.role || "user",
                 isVerified: true
             });
             await user.save();
@@ -98,20 +110,27 @@ router.post("/verify-otp", async (req, res) => {
             await user.save();
         }
 
-        //Delete Otp 
+        // Delete OTP after successful verification
         await Otp.deleteOne({ email });
 
-        //Generate JWT
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+        // Generate JWT with role
+        const token = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
 
-        res.status(200).json({ message: "OTP verified", token });
+        res.status(200).json({
+            message: "OTP verified successfully",
+            token,
+            user: { name: user.name, email: user.email, role: user.role }
+        });
 
     } catch (err) {
         console.error('Error in verifyOtp:', err);
         res.status(500).json({ message: "Server error", error: err.message });
     }
 });
-
 
 
 

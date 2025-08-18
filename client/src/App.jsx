@@ -12,6 +12,7 @@ import UserProfile from './Pages/UserProfile/UserProfile';
 import Donate from './Pages/Donate/Donate';
 import Request from './Pages/Request/Request';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
+import AdminLogin from './Pages/Login/AdminLogin';
 
 
 Request
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/donate" element={<Donate />} />
 
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin-login" element={<AdminLogin />} />
 
                 <Route path="/request" element={<Request />} />
                 <Route path="*" element={<NoPage />} />

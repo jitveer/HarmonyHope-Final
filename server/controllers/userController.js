@@ -1,25 +1,101 @@
+const jwt = require("jsonwebtoken");
 const User = require('../models/User');
 
-// Token-based profile (GET /api/user/profile)
-exports.getMyProfile = async (req, res) => {
+
+exports.getUser = async (req, res) => {
   try {
-    // middleware ne jo set kiya us se id nikalo
-    const userId = req.user?._id || req.user?.id || req.user;
-    if (!userId) {
-      return res.status(401).json({ message: 'Not authenticated' });
+    const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
     }
 
-    const user = await User.findById(userId).select('-password -__v');
+    // Find user by email
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(400).json({ message: "User not found" });
     }
 
-    res.status(200).json({ user });
-  } catch (err) {
-    console.error('getMyProfile error:', err.message);
-    res.status(500).json({ message: 'Server error' });
+    // Check if verified
+    if (!user.isVerified) {
+      return res.status(403).json({ message: "User not verified" });
+    }
+
+    // Compare password (plain text)
+    if (user.password !== password) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // ✅ Generate token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET || "MY_SECRET_KEY",
+      { expiresIn: "8h" }
+    );
+
+    // Send response
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// exports.getUser = async (req, res) => {
+
+//   try {
+//     const { email, password } = req.body;
+//     console.log(email, password);
+
+//     // Validate input
+//     if (!email || !password) {
+//       return res.status(400).json({ message: "Email and password required" });
+//     }
+
+//     // Find user by email
+//     const user = await User.findOne({ email });
+
+//     if (!user) {
+//       return res.status(400).json({ message: "User not found" });
+//     }
+
+//     // Check if verified
+//     if (!user.isVerified) {
+//       return res.status(403).json({ message: "User not verified" });
+//     }
+
+//     // Compare password (plain text)
+//     if (user.password !== password) {
+//       return res.status(400).json({ message: "Invalid credentials" });
+//     }
+
+//     // Return user info only (no token)
+//     res.status(200).json({
+//       message: "Login successful",
+//       user: {
+//         name: user.name,
+//         email: user.email,
+//         role: user.role
+//       }
+//     });
+
+//   } catch (error) {
+//     console.error("Error in getUser:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 
 
 

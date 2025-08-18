@@ -7,7 +7,7 @@ import { UserTokenVerification } from "../UserTokenVerification/UserTokenVerific
 function Navbar() {
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isValid, userId } = UserTokenVerification(); // coming from custom hook
+    const { isValid, userId } = UserTokenVerification(); 
     const [userName, setUserName] = useState("");
 
 
@@ -43,7 +43,7 @@ function Navbar() {
 
                 const data = await res.json();
                 setUserName(data.user.name);
-                console.log(data.user.name);
+                // console.log(data.user.name);
 
             } catch (err) {
                 console.error("Error fetching user Data");

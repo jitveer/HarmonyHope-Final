@@ -7,43 +7,26 @@ const isAdmin = require("../middlewares/isAdmin");
 
 const {
   createRequest,
-  getMyRequests,
+  requestStatus,
+  requestDelete,
   getAllRequests,
-  updateRequestStatus,
+  // updateRequestStatus,
 } = require("../controllers/requestController");
+
 
 // User: create request
 router.post("/", authenticateUser, createRequest);
 
-// User: my requests
-router.get("/mine", authenticateUser, getMyRequests);
+//USER REQUEST STATUS
+router.get("/request_status", authenticateUser, requestStatus);
+
+// DELETE REQUEST 
+router.delete("/:id",authenticateUser, requestDelete);
 
 // Admin: all requests (+ optional filter ?status=pending)
-router.get("/", authenticateUser, isAdmin, getAllRequests);
+router.get("/admin", authenticateUser, isAdmin, getAllRequests);
 
-// Admin: update status
-router.patch("/:id/status", authenticateUser, isAdmin, updateRequestStatus);
+// // Admin: update status
+// router.patch("/:id/status", authenticateUser, isAdmin, updateRequestStatus);
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-// const express =  require('express');
-// const router = express.Router();
-
-// const authenticateUser = require('../middlewares/authenticateUser');
-// const requestController = require('../controllers/requestController');
-
-
-// // router.post("/requestHelp", authenticateUser, requestController );
-
-// router.post("/requestHelp", requestController );
-
-// module.exports = router;
