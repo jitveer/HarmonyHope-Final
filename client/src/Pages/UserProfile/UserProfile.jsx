@@ -79,6 +79,7 @@ function UserProfile() {
 
 
 
+
     // FETCHING USER DATA FOR DISPLAY ON PROFILE
 
     useEffect(() => {
@@ -125,8 +126,8 @@ function UserProfile() {
         };
 
 
-        const checkTokens=()=>{
-            if(! isValid){
+        const checkTokens = () => {
+            if (!isValid) {
                 navigate('/');
             }
         }
@@ -135,8 +136,8 @@ function UserProfile() {
 
 
 
-        
-        
+
+
     }, [userId]);
 
 

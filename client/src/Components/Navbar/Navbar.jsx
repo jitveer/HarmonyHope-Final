@@ -1,19 +1,50 @@
 import React, { useEffect, useState } from "react";
 import style from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserTokenVerification } from "../UserTokenVerification/UserTokenVerification";
+
 
 
 function Navbar() {
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isValid, userId } = UserTokenVerification(); 
+    const { isValid, userId } = UserTokenVerification();
     const [userName, setUserName] = useState("");
+
+    const navigate = useNavigate();
 
 
     // MOBILE MENU TOGGLE
     const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+
+
+
+
+
+
+
+
+
+    const logOut = async () => {
+        await localStorage.removeItem('token');
+        await sessionStorage.removeItem("token");
+        setUserName("");
+        navigate('/');
+        navigate(0);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     useEffect(() => {
@@ -106,6 +137,7 @@ function Navbar() {
                                         <div className={style["profile-icon-container"]}>
                                             <Link to="/user-profile"><i className="ri-user-line"></i></Link>
                                             <span>{userName}</span>
+                                            <button onClick={logOut}>Log Out</button>
                                         </div>
 
                                     ) : (

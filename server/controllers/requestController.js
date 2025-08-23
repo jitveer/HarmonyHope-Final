@@ -110,6 +110,8 @@ exports.updateRequestStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body; // "approved" | "rejected"
 
+    console.log(adminId, id, status);
+
     if (!["approved", "rejected"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
@@ -120,7 +122,7 @@ exports.updateRequestStatus = async (req, res) => {
       approvedAt: status === "approved" ? new Date() : undefined,
     };
 
-    const doc = await Request.findByIdAndUpdate(id, update, { new: true });
+    const doc = await Request.findByIdAndUpdate({ _id: id }, update, { new: true });
     if (!doc) return res.status(404).json({ message: "Request not found" });
 
     res.json({ message: "Status updated", request: doc });

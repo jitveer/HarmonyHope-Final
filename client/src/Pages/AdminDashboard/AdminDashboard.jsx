@@ -8,6 +8,135 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  // 🔹 State for filters
+  const [filteredRequests, setFilteredRequests] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const [categoryFilter, setCategoryFilter] = useState("All Categories");
+  const [dateFilter, setDateFilter] = useState("");
+
+  const handleApprove = async (status, id) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/requests/status/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message);
+        setRequests((prev) =>
+          prev.map((req) => (req._id === id ? data.request : req))
+        );
+      }
+    } catch (error) {
+      alert("Server error");
+    }
+  };
+
+  // 🔹 Export filtered table data as CSV
+  const exportTableData = () => {
+    if (!filteredRequests || filteredRequests.length === 0) {
+      alert("No data available to export!");
+      return;
+    }
+
+    // Define headers
+    const headers = [
+      "Request ID",
+      "Beneficiary Name",
+      "Beneficiary Email",
+      "Amount",
+      "Category",
+      "Status",
+      "Date",
+    ];
+
+    // Convert filtered rows into CSV format
+    const rows = filteredRequests.map((req) => [
+      req._id,
+      req.user?.name || "",
+      req.user?.email || "",
+      `₹${req.amount}`,
+      req.requestCategorie || "",
+      req.status,
+      new Date(req.createdAt).toLocaleDateString(),
+    ]);
+
+    // CSV String
+    const csvContent =
+      "\uFEFF" +
+      [headers, ...rows]
+        .map((row) =>
+          row
+            .map((val) => `"${String(val).replace(/"/g, '""')}"`)
+            .join(",")
+        )
+        .join("\n");
+
+    // Create file & download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+    link.href = url;
+    link.download = `donation-requests-${stamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // 🔹 Effect to apply filters whenever requests or filter criteria change
+  useEffect(() => {
+    let filtered = requests;
+
+    // Search query filter (searches by ID, Name, or Email)
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (req) =>
+          req._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (req.user?.name &&
+            req.user.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (req.user?.email &&
+            req.user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    // Status filter
+    if (statusFilter !== "All Status") {
+      filtered = filtered.filter((req) => req.status === statusFilter.toLowerCase());
+    }
+
+    // Category filter
+    if (categoryFilter !== "All Categories") {
+      filtered = filtered.filter((req) => req.requestCategorie === categoryFilter);
+    }
+
+    // Date filter
+    if (dateFilter) {
+      const filterDate = new Date(dateFilter).toLocaleDateString();
+      filtered = filtered.filter(
+        (req) => new Date(req.createdAt).toLocaleDateString() === filterDate
+      );
+    }
+
+    setFilteredRequests(filtered);
+  }, [requests, searchQuery, statusFilter, categoryFilter, dateFilter]);
+
+  // 🔹 Clear all active filters
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("All Status");
+    setCategoryFilter("All Categories");
+    setDateFilter("");
+  };
+
   useEffect(() => {
     const fetchAllUserRequest = async () => {
       try {
@@ -23,17 +152,18 @@ const AdminDashboard = () => {
 
         if (res.ok) {
           setRequests(data.requests || []);
-          console.log("Requests:", data.requests);
         }
       } catch (error) {
         console.error("Error fetching requests:", error);
       }
     };
 
-    // TAKING USER ROLE FOR REDIRECTION
     const checkPathByRole = () => {
+      if (!token) {
+        navigate("/");
+        return;
+      }
       const decodedUser = jwtDecode(token);
-      console.log(decodedUser.role);
       if (decodedUser.role === "user") {
         navigate("/user-dashboard");
       } else if (decodedUser.role === "admin") {
@@ -50,30 +180,12 @@ const AdminDashboard = () => {
   return (
     <>
       <div className="dashboardContainer">
-        <div className="sideSlider">
-          <div className="tab-button">
-            <div className="p">Dashboard</div>
-          </div>
-          <div className="tab-button">
-            <div className="p">Donation Request</div>
-          </div>
-          <div className="tab-button">
-            <div className="p">Beneficiaries</div>
-          </div>
-          <div className="tab-button">
-            <div className="p">Analytics</div>
-          </div>
-          <div className="tab-button">
-            <div className="p">Setting</div>
-          </div>
-        </div>
-
         <div className="rightSide">
           <div className="tabContainer">
             <div className="totalDonation">
               <div className="textpart">
                 <p>Total Donations</p>
-                <h2>8475rs</h2>
+                <h2>0</h2>
                 <p>12.5% vs last month</p>
               </div>
               <div className="logopart">
@@ -95,7 +207,9 @@ const AdminDashboard = () => {
             <div className="approvedRequests">
               <div className="textpart">
                 <p>Approved Requests</p>
-                <h2>{requests.filter((r) => r.status === "approved").length}</h2>
+                <h2>
+                  {requests.filter((r) => r.status === "approved").length}
+                </h2>
                 <p>+ this week</p>
               </div>
               <div className="logopart">
@@ -120,7 +234,7 @@ const AdminDashboard = () => {
             <div className="donation-header">
               <div className="donation-header-top">
                 <h3 className="donation-title">Donation Requests</h3>
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={exportTableData}>
                   <div className="btn-content">
                     <i className="ri-download-line"></i>
                     <span>Export Data</span>
@@ -131,18 +245,29 @@ const AdminDashboard = () => {
               {/* Filters */}
               <div className="donation-filters">
                 <div className="search-box">
-                  <input type="text" placeholder="Search requests..." />
+                  <input
+                    type="text"
+                    placeholder="Search requests..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
                   <i className="ri-search-line"></i>
                 </div>
 
-                <select>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
                   <option>All Status</option>
-                  <option>Pending</option>
-                  <option>Approved</option>
-                  <option>Rejected</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
                 </select>
 
-                <select>
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                >
                   <option>All Categories</option>
                   <option>Medical</option>
                   <option>Education</option>
@@ -150,9 +275,14 @@ const AdminDashboard = () => {
                   <option>Food</option>
                 </select>
 
-                <input type="date" />
-
-                <button className="btn-clear">Clear Filters</button>
+                <input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                />
+                <button className="btn-clear" onClick={handleClearFilters}>
+                  Clear Filters
+                </button>
               </div>
             </div>
 
@@ -174,8 +304,8 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {requests.length > 0 ? (
-                    requests.map((req) => (
+                  {filteredRequests.length > 0 ? (
+                    filteredRequests.map((req) => (
                       <tr key={req._id}>
                         <td>
                           <input type="checkbox" />
@@ -200,10 +330,22 @@ const AdminDashboard = () => {
                             {req.status}
                           </span>
                         </td>
-                        <td>{new Date(req.createdAt).toLocaleDateString()}</td>
                         <td>
-                          <button className="btn btn-green">Approve</button>
-                          <button className="btn btn-red">Reject</button>
+                          {new Date(req.createdAt).toLocaleDateString()}
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-green"
+                            onClick={() => handleApprove("approved", req._id)}
+                          >
+                            Approve
+                          </button>
+                          <button
+                            className="btn btn-red"
+                            onClick={() => handleApprove("rejected", req._id)}
+                          >
+                            Reject
+                          </button>
                         </td>
                       </tr>
                     ))

@@ -9,7 +9,7 @@ const isAdmin = async (req, res, next) => {
     if (!flag) {
       return res.status(403).json({ message: "Access denied. Admins only." });
     }
-    console.log("Admin hai");
+    // console.log("Admin Done");
     next();
   } catch (err) {
     console.error(err);

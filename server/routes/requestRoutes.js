@@ -10,7 +10,7 @@ const {
   requestStatus,
   requestDelete,
   getAllRequests,
-  // updateRequestStatus,
+  updateRequestStatus,
 } = require("../controllers/requestController");
 
 
@@ -23,8 +23,11 @@ router.get("/request_status", authenticateUser, requestStatus);
 // DELETE REQUEST 
 router.delete("/:id",authenticateUser, requestDelete);
 
-// Admin: all requests (+ optional filter ?status=pending)
+// Admin: all requests
 router.get("/admin", authenticateUser, isAdmin, getAllRequests);
+
+// Admin: Approve
+router.patch("/status/:id", authenticateUser, isAdmin, updateRequestStatus);
 
 // // Admin: update status
 // router.patch("/:id/status", authenticateUser, isAdmin, updateRequestStatus);
