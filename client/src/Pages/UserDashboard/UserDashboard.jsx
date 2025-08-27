@@ -15,6 +15,8 @@ const UserDashboard = () => {
 
 
 
+
+
   useEffect(() => {
 
     const fetchRequests = async () => {
@@ -44,7 +46,7 @@ const UserDashboard = () => {
     const checkPathByRole = async () => {
 
       const decodedUser = await jwtDecode(token);
-      console.log(decodedUser.role);
+
       if (decodedUser.role == 'user') {
         navigate("/user-dashboard");
       } else if (decodedUser.role == "admin") {

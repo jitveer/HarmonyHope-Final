@@ -68,7 +68,7 @@ function Home() {
 
     return (
         <>
-            <body className={styles.bodyBg}>
+            <div className={styles.bodyBg}>
 
                 <section className={styles.heroSection}>
                     <div className={styles.heroBgImg}></div>
@@ -296,7 +296,7 @@ function Home() {
                     </div>
                 </section>
 
-            </body>
+            </div>
         </>
     )
 }

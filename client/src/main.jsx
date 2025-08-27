@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from "react-router-dom";
+import { UserTokenVerification } from './Components/UserTokenVerification/UserTokenVerification.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+
+  <UserTokenVerification>
     <BrowserRouter>
-        <App />
+      <App />
     </BrowserRouter>
-  </StrictMode >,
+  </UserTokenVerification>
+
 )

@@ -16,20 +16,42 @@ const generateOtp = (length = 6) =>
 
 
 
-
-
 // ================== REGISTER (Send OTP) ==================
 
 router.post('/register', async (req, res) => {
+
     // Added role to destructure
     const { name, email, phone, password, role } = req.body;
+    const nameRegex = /^[A-Za-z\s]{3,20}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
     console.log(req.body);
 
-    // checking empty field
+
+    // FORM VALIDATAION
     if (!name || !email || !phone || !password) {
         return res.status(400).json({ message: 'All fields required' });
     }
+
+    if (!nameRegex.test(name)) {
+        return res.status(400).json({ message: 'Name must be 3-20 letters only (no numbers or special chars)' });
+    }
+
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Please enter a valid email address.' });
+    }
+
+    if (!phoneRegex.test(phone)) {
+        return res.status(400).json({ message: 'Phone must be a valid 10-digit Indian number' });
+    }
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({ message: 'Password must be 8–20 chars, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.' });
+    }
+    ////////////////////////////
+
 
     try {
         const existingUser = await User.findOne({ email });
@@ -131,6 +153,28 @@ router.post("/verify-otp", async (req, res) => {
         res.status(500).json({ message: "Server error", error: err.message });
     }
 });
+
+
+
+// THIS CODE WILL GO INSIDE REGISTRATON API . THAT IS ABOVE 
+
+// VERIFYING CAPTCHA FROM BACKEND SIDE ALSO 
+
+// const axios = require("axios");
+
+// app.post("/verify-captcha", async (req, res) => {
+//     const { token } = req.body;
+//     const secret = "6LeiubIrAAAAAClTQUNZ9ElS_AsthHJj6ad3k7QU";
+//     const response = await axios.post(
+//         `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`
+//     );
+
+//     if (response.data.success) {
+//         res.json({ success: true });
+//     } else {
+//         res.json({ success: false });
+//     }
+// });
 
 
 

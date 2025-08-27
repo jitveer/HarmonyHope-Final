@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { } from "react";
 import style from "./Navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { UserTokenVerification } from "../UserTokenVerification/UserTokenVerification";
+import { useUserTokenValidation } from "../UserTokenVerification/UserTokenVerification";
+
 
 
 
 function Navbar() {
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isValid, userId } = UserTokenVerification();
     const [userName, setUserName] = useState("");
+    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
     const navigate = useNavigate();
+
+
+    console.log("navbar lsoin = ", isValidToken)
 
 
     // MOBILE MENU TOGGLE
@@ -20,29 +25,14 @@ function Navbar() {
 
 
 
-
-
-
-
-
-
-
+    //LOG OUT USER
     const logOut = async () => {
-        await localStorage.removeItem('token');
-        await sessionStorage.removeItem("token");
+        localStorage.removeItem("token");
+        setIsValidToken(false);
+        setUserId(null);
         setUserName("");
-        navigate('/');
-        navigate(0);
-    }
-
-
-
-
-
-
-
-
-
+        navigate("/");
+    };
 
 
 
@@ -52,6 +42,8 @@ function Navbar() {
         if (!userId) return;
 
         const fetchUserData = async () => {
+
+            // console.log(userId, isValidToken);
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
@@ -79,18 +71,16 @@ function Navbar() {
             } catch (err) {
                 console.error("Error fetching user Data");
             }
+
+            // if (isValidToken) {
+
+            // }
         }
 
         fetchUserData();
 
 
-    }, [userId])
-
-
-
-
-
-
+    }, [isValidToken])
 
 
 
@@ -100,7 +90,6 @@ function Navbar() {
 
     return (
         <>
-            {/* <h1>{isValid ? "True" : "False"}</h1> */}
 
             <nav className={style.navbar}>
                 <div className={style["navbar-container"]}>
@@ -114,7 +103,7 @@ function Navbar() {
                             <Link to="/" className={style["navbar-link"]}>About Us</Link>
 
                             {
-                                isValid ? (
+                                isValidToken ? (
 
                                     <Link to="/user-dashboard" className={style["navbar-link"]}>Dashboard</Link>
 
@@ -133,7 +122,7 @@ function Navbar() {
                             </div>
                             <div className={style["navbar-icon"]}>
                                 {
-                                    isValid ? (
+                                    isValidToken ? (
                                         <div className={style["profile-icon-container"]}>
                                             <Link to="/user-profile"><i className="ri-user-line"></i></Link>
                                             <span>{userName}</span>

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
+import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
+
 
 const AdminLogin = ({ onLogin }) => {
 
@@ -14,10 +16,28 @@ const AdminLogin = ({ onLogin }) => {
     const [success, setSuccess] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+
     function handleChange(e) {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     }
+
+
+
+    // useEffect(() => {
+
+    //     const checkToken = () => {
+
+    //     }
+
+    //     checkToken();
+
+    // }, (isValidToken))
+
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,15 +60,16 @@ const AdminLogin = ({ onLogin }) => {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess('Login successful!');
-                alert('Successful login');
-                localStorage.setItem('token', data.token);
-                if (onLogin) onLogin(data.token);
+                // alert('Successful login', data.user._id);
 
-                // Redirect based on role 
+                localStorage.setItem('userId', data.user._id);
+                setUserId(data.user._id);
+                setIsValidToken(True);
+
+                console.log("Login submit hone par = ", isValidToken);
+
                 if (data.user.role === "admin") navigate("/admin-dashboard");
-                // else if (data.user.role === "superadmin") navigate("/superadmin");
-                else navigate("/user-dashboard"); // fallback
+                else navigate("/user-dashboard");
 
             } else {
                 setError(data.message || 'Invalid credentials');
@@ -64,6 +85,7 @@ const AdminLogin = ({ onLogin }) => {
 
 
     return (
+
         <div className="adminLoginContainer">
             <div className="login-card">
                 <div className="login-header">

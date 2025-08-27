@@ -1,51 +1,61 @@
-import { useState, useEffect } from "react";
+// UserTokenVerification.js
+import { createContext, useState, useEffect, useContext, useId } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export function UserTokenVerification() {
-    const [isValid, setIsValid] = useState(null);
-    const [loading, setLoading] = useState(true);
+const TokenContext = createContext();
+
+export const UserTokenVerification = ({ children }) => {
+    const [isValidToken, setIsValidToken] = useState(false);
     const [userId, setUserId] = useState(null);
 
+    const verifyToken = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            setIsValidToken(false);
+            return;
+        }
+
+        try {
+            const res = await fetch("http://localhost:5000/api/user/verify", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (res.ok) {
+                setIsValidToken(true);
+                const decodedUser = jwtDecode(token);
+                setUserId(decodedUser.userId);
+                // console.log("User id = " + userId);
+                // console.log("isValidToken" + isValidToken);
+
+            } else {
+                setIsValidToken(false);
+            }
+        } catch (error) {
+            console.error("Token verification failed", error);
+            setIsValidToken(false);
+        }
+    };
+
+    // verify on first load
     useEffect(() => {
-        const verifyToken = async () => {
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                setIsValid(false);
-                setLoading(false);
-                return;
-            }
-
-            try {
-                // Verify token with backend
-                const res = await fetch("http://localhost:5000/api/user/verify", {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (res.ok) {
-                    setIsValid(true);
-                    // Decode token locally
-                    const decodedUser = jwtDecode(token);
-                    setUserId(decodedUser.userId);
-
-                } else {
-                    setIsValid(false);
-                }
-
-            } catch (error) {
-                console.error("Token verification failed", error);
-                setIsValid(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         verifyToken();
+    }, [isValidToken, userId]);
 
-    }, []); // ✅ run once on mount
 
-    return { isValid, loading, userId };
-}
+
+    return (
+        <TokenContext.Provider
+            value={{ isValidToken, setIsValidToken, userId, setUserId }}
+        >
+            {children}
+        </TokenContext.Provider>
+    );
+};
+
+export const useUserTokenValidation = () => {
+    return useContext(TokenContext);
+};

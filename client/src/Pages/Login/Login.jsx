@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
 import { useEffect } from "react";
+import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
+
+
 
 
 
@@ -16,10 +19,7 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-
-
-
+  const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
 
 
@@ -27,6 +27,8 @@ const Login = ({ onLogin }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,13 +51,17 @@ const Login = ({ onLogin }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess('Login successful!');
-        alert('Successful login');
+        setIsValidToken(true);
+        setUserId(data.user.userId);
+        console.log(data.user.userId);
+
         localStorage.setItem('token', data.token);
+        alert('Successful login');
         if (onLogin) onLogin(data.token);
 
         // Redirect based on role 
         if (data.user.role === "admin") navigate("/admin-dashboard");
+
         // else if (data.user.role === "superadmin") navigate("/superadmin");
         else navigate("/user-dashboard");
 
@@ -69,6 +75,24 @@ const Login = ({ onLogin }) => {
 
     setIsLoading(false);
   }
+
+
+
+
+  //IF TOKEN IN LOCAL STORAGE THEN GO TO THAT PAGE
+
+  useEffect(() => {
+    const checkToken = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        navigate('/user-dashboard');
+      }
+    }
+
+    checkToken();
+  }, [])
+
+
 
 
 
