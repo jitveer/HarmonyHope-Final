@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import './Register.css';
 import './OtpVerify.css';
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
+
 
 const OtpVerify = () => {
 
@@ -13,6 +15,8 @@ const OtpVerify = () => {
     const [timer, setTimer] = useState(60);
     const [resendVisible, setResendVisible] = useState(false);
     const inputsRef = useRef([]);
+    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+
 
     useEffect(() => {
         if (timer > 0) {
@@ -72,6 +76,8 @@ const OtpVerify = () => {
             const data = await res.json();
 
             if (res.ok) {
+                setIsValidToken(true);
+                setUserId(data.user.userId);
                 console.log(" OTP Verified Successfully: ", data);
                 alert("You are succesfully register");
                 localStorage.setItem("token", data.token);

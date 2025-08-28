@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+// import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
 // import ReCAPTCHA from "react-google-recaptcha";
-
 
 
 
@@ -16,7 +16,7 @@ function Register() {
     // const [captchaValue, setCaptchaValue] = useState(null);
     const navigate = useNavigate();
     const [paswrdEye, setPaswrdEye] = useState(true);
-
+    // const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,10 +61,14 @@ function Register() {
             return;
         }
 
-        if (!captchaValue) {
-            alert("Please verify the captcha!");
-            return;
-        }
+
+
+
+
+        // if (!captchaValue) {
+        //     alert("Please verify the captcha!");
+        //     return;
+        // }
 
         /////////////////////////////
 
@@ -92,7 +96,6 @@ function Register() {
             console.error("Fetch error:", error);
             alert("Something went wrong.");
         }
-
 
     };
 

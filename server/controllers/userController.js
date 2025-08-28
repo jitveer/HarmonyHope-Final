@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require('../models/User');
+const bcrypt = require("bcrypt");
 
 
 exports.getUser = async (req, res) => {
@@ -22,10 +23,13 @@ exports.getUser = async (req, res) => {
       return res.status(403).json({ message: "User not verified" });
     }
 
-    // Compare password (plain text)
-    if (user.password !== password) {
-      return res.status(400).json({ message: "Invalid credentials" });
+    // compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid email or password" });
     }
+
+  
 
     // ✅ Generate token
     const token = jwt.sign(
@@ -51,51 +55,6 @@ exports.getUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
-// exports.getUser = async (req, res) => {
-
-//   try {
-//     const { email, password } = req.body;
-//     console.log(email, password);
-
-//     // Validate input
-//     if (!email || !password) {
-//       return res.status(400).json({ message: "Email and password required" });
-//     }
-
-//     // Find user by email
-//     const user = await User.findOne({ email });
-
-//     if (!user) {
-//       return res.status(400).json({ message: "User not found" });
-//     }
-
-//     // Check if verified
-//     if (!user.isVerified) {
-//       return res.status(403).json({ message: "User not verified" });
-//     }
-
-//     // Compare password (plain text)
-//     if (user.password !== password) {
-//       return res.status(400).json({ message: "Invalid credentials" });
-//     }
-
-//     // Return user info only (no token)
-//     res.status(200).json({
-//       message: "Login successful",
-//       user: {
-//         name: user.name,
-//         email: user.email,
-//         role: user.role
-//       }
-//     });
-
-//   } catch (error) {
-//     console.error("Error in getUser:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 
 

@@ -5,6 +5,7 @@ const User = require("../models/User");
 const Otp = require("../models/Otp");
 const transporter = require('../config/nodemailer');
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 
 
@@ -50,7 +51,11 @@ router.post('/register', async (req, res) => {
     if (!passwordRegex.test(password)) {
         return res.status(400).json({ message: 'Password must be 8–20 chars, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.' });
     }
+
+
+
     ////////////////////////////
+
 
 
     try {
@@ -60,6 +65,10 @@ router.post('/register', async (req, res) => {
         if (existingUser && existingUser.isVerified) {
             return res.status(400).json({ message: 'User already registered' });
         }
+
+        //HASH PASSWORD
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // generate OTP 
         const otpCode = generateOtp();
@@ -74,13 +83,13 @@ router.post('/register', async (req, res) => {
             expiresAt,
             name,
             phone,
-            password,
+            password:hashedPassword,
             role: role || "user"   // if not provided, set default role "user"
         });
 
         // SEND MAIL
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: 'support@harmonyhope.charity',
             to: email,
             subject: "HarmonyHope OTP Verification",
             html: `<p>Your OTP is <b>${otpCode}</b>. It is valid for 10 minutes.</p>`
