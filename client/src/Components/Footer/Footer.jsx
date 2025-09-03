@@ -47,7 +47,7 @@ const Footer = () => {
 
                     <div className={style["footer-bottom"]}>
                         <p className={style["footer-copyright"]}>
-                            © 2025 CareCorp Internal Donation Platform. All rights reserved.
+                            © 2025 Harmony Hope Internal Donation Platform. All rights reserved.
                         </p>
                         <p className={style["footer-made-with"]}>
                             Made with <span className={style["heart-icon"]}>❤</span> for our amazing team

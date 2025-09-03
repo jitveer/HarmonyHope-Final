@@ -4,7 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 const userRegistrationWtihOtp = require('./routes/userRegistrationWtihOtp.js');
 const userLoginWithUserProfile = require('./routes/userLoginWithUserProfile.js');
-const requestRoutes = require('./routes/requestRoutes.js')
+const requestRoutes = require('./routes/requestRoutes.js');
+const myDonation = require('./routes/donation.js');
 
 
 const app = express();
@@ -23,7 +24,7 @@ app.use('/api/requests', requestRoutes);
 
 
 // DONATION API
-// app.use('/api', donationRoutes);
+app.use('/api', myDonation);
 
 
 

@@ -63,7 +63,7 @@ function Home() {
 
 
     useEffect(() => {
-        
+
     }, [])
 
     return (
@@ -91,6 +91,7 @@ function Home() {
                                     </h1>
                                     <p className={styles.heroSubtitle}>
                                         Join our internal donation platform where colleagues support colleagues. Together, we create a safety net that ensures no team member faces challenges alone.
+
                                     </p>
                                     <p className={styles.heroDesc}>
                                         From medical emergencies to educational support, our platform connects those who can give with those who need help, fostering a culture of compassion and unity.
