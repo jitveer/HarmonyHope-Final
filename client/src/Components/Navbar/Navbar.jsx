@@ -3,6 +3,7 @@ import { } from "react";
 import style from "./Navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserTokenValidation } from "../UserTokenVerification/UserTokenVerification";
+import userImage from "/src/assets/user-profile.png"
 
 
 
@@ -154,18 +155,30 @@ function Navbar() {
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
+
+
                 <div className={style["mobile-menu-backdrop"]} onClick={closeMobileMenu}>
-                    <div
-                        className={style["mobile-menu-sidepanel"]}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <button
+                    <div className={style["mobile-menu-sidepanel"]} onClick={e => e.stopPropagation()} >
+
+                        {/* <button
                             className={style["mobile-menu-close"]}
                             onClick={closeMobileMenu}
                             aria-label="Close mobile menu"
                         >
                             <i className="ri-close-line"></i>
-                        </button>
+                        </button> */}
+
+
+                        <div className={style["userView"]}>
+                            <div className={style["userImg"]}>
+                                <img src={userImage} alt="user_img" />
+                            </div>
+                            <div className={style["userNameSection"]}>
+                                <span className={style["userName"]}>Raja Kumar</span>
+                                <span className={style["userdesignation"]}>IT Engineer</span>
+                            </div>
+                        </div>
+
                         <nav className={style["mobile-menu-links"]}>
                             <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Home</Link>
                             <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>
@@ -174,6 +187,17 @@ function Navbar() {
                         </nav>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
             )}
         </>
     );

@@ -23,7 +23,7 @@
   gap: 0.5rem;
 } */
 
-.profile-icon-container> span{
+.profile-icon-container>span {
   margin: 0 0.6rem;
 }
 
@@ -177,6 +177,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -192,15 +193,15 @@
   .navbar-container {
     padding: 0 1rem;
   }
-  
+
   .navbar-logo {
     font-size: 1.25rem;
   }
-  
+
   .navbar-actions {
     gap: 0.5rem;
   }
-  
+
   .navbar-icon {
     width: 1.75rem;
     height: 1.75rem;
@@ -226,7 +227,8 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(31, 41, 55, 0.92); /* dark semi-transparent */
+  background: rgba(31, 41, 55, 0.92);
+  /* dark semi-transparent */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,8 +237,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .mobile-menu-close {
@@ -289,17 +296,18 @@
   max-width: 320px;
   height: 100vh;
   background: #fff;
-  box-shadow: 2px 0 16px rgba(0,0,0,0.08);
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   position: relative;
-  animation: slideInLeft 0.25s cubic-bezier(0.4,0,0.2,1);
+  animation: slideInLeft 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -338,4 +346,56 @@
 .mobile-menu-link:active,
 .mobile-menu-link:hover {
   color: var(--primary-color, #3b82f6);
+}
+
+
+
+
+@media (max-width:767px) {
+
+  .userView {
+    width: 100%;
+    height: 22%;
+    background-color: rgb(167, 167, 167);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .userImg img {
+    width: 4.5rem;
+    height: auto;
+    margin: 0 1rem 0 1.9rem;
+    box-shadow: 0 0 3px #454545;
+    border-radius: 50%;
+  }
+
+  .userNameSection {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+  }
+
+  .userName {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #353535;
+  }
+
+  .userdesignation {
+    font-size: 0.7rem;
+    color: #ffffff;
+  }
+
+
+
+
+  .mobile-menu-links{
+    background-color: #3b82f6;
+  }
+
+
 }
