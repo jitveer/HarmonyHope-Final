@@ -100,7 +100,7 @@ const Login = ({ onLogin }) => {
     <div className="LoginContainer">
       <div className="login-card">
         <div className="login-header">
-          <h1>HarmonyHope</h1>
+          <h1>Login</h1>
           <p>Welcome back! Please sign in to your account.</p>
         </div>
 

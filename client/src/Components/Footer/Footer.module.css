@@ -241,6 +241,10 @@
     font-size: 5rem !important;
   }
 
+  .footer{
+    display: none;
+  }
+
 
 
 }

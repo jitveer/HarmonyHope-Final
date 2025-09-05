@@ -17,7 +17,7 @@ import TermAndCondition from './Pages/TermCondition/TermAndCondition';
 import PrivacyPolicy from './Pages/PrivacyPolicy/PrivacyPolicy';
 
 
-Request
+
 const App = () => {
     return (
         <>

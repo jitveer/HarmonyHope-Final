@@ -3,3 +3,10 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
+
+@media (max-width: 767px) {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}

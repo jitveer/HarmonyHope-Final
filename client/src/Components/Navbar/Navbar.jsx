@@ -1,11 +1,13 @@
 import { useEffect, useState, useContext } from "react";
-import { } from "react";
 import style from "./Navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserTokenValidation } from "../UserTokenVerification/UserTokenVerification";
-import userImage from "/src/assets/user-profile.png"
+import userImage from "/src/assets/user-profile.png";
+import logo from "/src/assets/hormony_hope_charity_logo.png";
 
 
+/* ICONS */
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars } from "react-icons/fa";
 
 
 function Navbar() {
@@ -34,6 +36,10 @@ function Navbar() {
         setUserName("");
         navigate("/");
     };
+
+
+
+
 
 
 
@@ -95,9 +101,10 @@ function Navbar() {
             <nav className={style.navbar}>
                 <div className={style["navbar-container"]}>
                     <div className={style["navbar-content"]}>
-                        <div className={style["navbar-brand"]}>
+                        <Link to="/" className={style["navbar-brand"]} >
+                            <img className={style["harmonyLogo"]} src={logo} alt="hormony_hope_charity_logo" />
                             <h1 className={style["navbar-logo"]}>Harmony Hope</h1>
-                        </div>
+                        </Link>
 
                         <div className={style["navbar-menu"]}>
                             <Link to="/" className={style["navbar-link"]}>Home</Link>
@@ -145,7 +152,8 @@ function Navbar() {
                                     onClick={toggleMobileMenu}
                                     aria-label="Toggle mobile menu"
                                 >
-                                    <i className={`ri-menu-line ${style["mobile-menu-icon"]}`}></i>
+                                    <FaBars className={style["mobile-menu-icon"]} />
+                                    {/* <i className={`ri-menu-line ${style["mobile-menu-icon"]}`}></i> */}
                                 </button>
                             </div>
                         </div>
@@ -153,7 +161,10 @@ function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu */}
+
+            {/* SIDEBAR */}
+
+
             {isMobileMenuOpen && (
 
 
@@ -168,35 +179,48 @@ function Navbar() {
                             <i className="ri-close-line"></i>
                         </button> */}
 
-
                         <div className={style["userView"]}>
                             <div className={style["userImg"]}>
                                 <img src={userImage} alt="user_img" />
                             </div>
                             <div className={style["userNameSection"]}>
-                                <span className={style["userName"]}>Raja Kumar</span>
+                                <span className={style["userName"]}>{userName ? userName : "User Kumar"}</span>
                                 <span className={style["userdesignation"]}>IT Engineer</span>
                             </div>
                         </div>
 
                         <nav className={style["mobile-menu-links"]}>
-                            <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Home</Link>
-                            <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>
-                            <Link to="/register" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Register</Link>
-                            <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Login</Link>
+                            <div className={style["mobile-menu-list"]}>
+                                <FaHome />
+                                <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Home</Link>
+                            </div>
+                            <div className={style["mobile-menu-list"]}>
+                                <FaInfoCircle />
+                                <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>
+                            </div>
+                            <div className={style["mobile-menu-list"]}>
+                                <FaUserPlus />
+                                <Link to="/register" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Register</Link>
+                            </div>
+
+                            {
+                                isValidToken ? (
+
+                                    <div className={style["mobile-menu-list"]}>
+                                        <FaSignOutAlt />
+                                        <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Log Out</Link>
+                                    </div>
+                                ) : (
+                                    <div className={style["mobile-menu-list"]}>
+                                        <FaSignInAlt />
+                                        <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Login</Link>
+                                    </div>
+                                )
+                            }
+
                         </nav>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
 
             )}
         </>
