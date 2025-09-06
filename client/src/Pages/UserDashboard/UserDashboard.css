@@ -1,20 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.donation-container{
+.donation-container {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -328,7 +312,7 @@
   transform: translateY(-2px);
 }
 
-.forDays{
+.forDays {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -407,31 +391,180 @@
 }
 
 
-/* Responsive Design */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MOBILE Responsive Design  */
 @media (max-width: 768px) {
+
+  .donation-container {
+    box-sizing: border-box;
+  }
+
   .dashboard-container {
-    padding: 16px;
+    width: 100%;
+    padding: 0 0px;
   }
-  
+
   .stats-cards {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    padding-top: 19px;
   }
-  
-  .main-section {
-    grid-template-columns: 1fr;
-    gap: 16px;
+
+  .balance-card{
+    margin-left: 10px;
   }
-  
+
+  .requests-card{
+    margin-right: 10px;
+  }
+
+  .card {
+    width: 33.3%;
+    height: 100px;
+  }
+
+  .card .icon {
+    width: 37px;
+    height: 37px;
+  }
+
+  .card .value {
+    font-size: 18px;
+  }
+
+  .card .label {
+    font-size: 10px;
+  }
+
+
+
   .action-buttons {
-    flex-direction: column;
-    
+    justify-content: center;
   }
-  
+
+
+  .main-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .donations-section {
+    margin: 0 10px;
+    padding: 19px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section-header {
+    width: 100%;
+  }
+
+  .section-header h3 {
+    font-size: 0.9em;
+    padding-right: 10px;
+  }
+
   .search-export {
-    flex-direction: column;
+    /* width: 70%; */
+    margin-right: 0;
+    padding-right: 10px;
+    gap: 9px;
   }
+
+  .search-export input {
+    width: 100%;
+  }
+
+  .donation-list {
+    width: 100%;
+  }
+
+
+
+  .requests-section {
+    margin: 10px;
+    padding: 19px;
+  }
+
+  .request-card {
+    padding: 0;
+  }
+
+  .request-actions {
+
+  }
+
+  
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Animations */
 @keyframes fadeInUp {
@@ -439,6 +572,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

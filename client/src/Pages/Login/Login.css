@@ -42,6 +42,7 @@
   max-width: 400px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
+  gap: 10px;
 }
 
 .login-form h2 {
@@ -50,7 +51,7 @@
 }
 
 .login-form input {
-  width: 100%;
+  width: 90%;
   padding: 0.8rem;
   margin: 0.5rem 0;
   border: 1px solid #ccc;
@@ -75,7 +76,6 @@
   background-color: #004a7c;
 }
 
-
 .form-group>label {
   text-align: left;
 }
@@ -86,6 +86,11 @@
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+}
+
+.help-links a {
+  text-decoration: none;
+  color: white;
 }
 
 
@@ -117,7 +122,16 @@
   }
 
   .form-group input {
-    width: 90%;
+    width: 90% !important;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    margin-bottom: 0 !important;
+
   }
 
 

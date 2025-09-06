@@ -106,29 +106,6 @@ const UserDashboard = () => {
   return (
 
     <>
-      {/* <header class="custom-header">
-        <div class="header-container">
-          <div class="header-left">
-            <h1 class="logo-text">Harmony Hope</h1>
-          </div>
-          <div class="header-right">
-            <div class="notification-icon">
-              <i class="ri-notification-3-line"></i>
-              <span class="notification-count">3</span>
-            </div>
-            <div class="user-info">
-              <div class="user-avatar">
-                <span class="user-initials">JD</span>
-              </div>
-              <span class="user-name">John Davis</span>
-              <div class="dropdown-icon">
-                <i class="ri-arrow-down-s-line"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header> */}
-
 
       <div className="donation-container">
         <div className="dashboard-container">

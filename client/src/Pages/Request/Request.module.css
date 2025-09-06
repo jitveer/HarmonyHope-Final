@@ -172,7 +172,7 @@ input[type="number"] {
 }
 
 /* Responsive */
-@media (max-width: 500px) {
+@media (max-width: 767px) {
     .request-card {
         padding: 1.5rem;
     }
