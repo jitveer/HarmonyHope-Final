@@ -7,7 +7,7 @@ import logo from "/src/assets/hormony_hope_charity_logo.png";
 
 
 /* ICONS */
-import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt } from "react-icons/fa";
 
 
 function Navbar() {
@@ -36,6 +36,16 @@ function Navbar() {
         setUserName("");
         navigate("/");
     };
+
+    //CAPATILIZE FIRST LETTER
+
+    function capitalizeFirstWord(text) {
+
+        if (!text) return "";
+        const [firstWord, ...rest] = text.split(" ");
+        return `${firstWord.charAt(0).toUpperCase() + firstWord.slice(1)} ${rest.join(" ")}`;
+    }
+
 
 
 
@@ -128,12 +138,13 @@ function Navbar() {
                             <div className={style["navbar-icon"]}>
                                 <i className="ri-notification-line"></i>
                             </div>
-                            <div className={style["navbar-icon"]}>
+                            {/* <div className={[ style["navbar-icon"] , style["navbar-profile-icon"] ].join(" ") }> */}
+                            <div className={`${style["navbar-icon"]} ${style["navbar-profile-icon"]}`}>
                                 {
                                     isValidToken ? (
                                         <div className={style["profile-icon-container"]}>
                                             <Link to="/user-profile"><i className="ri-user-line"></i></Link>
-                                            <span>{userName}</span>
+                                            <span>{capitalizeFirstWord(userName)}</span>
                                             <button onClick={logOut}>Log Out</button>
                                         </div>
 
@@ -171,22 +182,29 @@ function Navbar() {
                 <div className={style["mobile-menu-backdrop"]} onClick={closeMobileMenu}>
                     <div className={style["mobile-menu-sidepanel"]} onClick={e => e.stopPropagation()} >
 
-                        {/* <button
+                        <button
                             className={style["mobile-menu-close"]}
                             onClick={closeMobileMenu}
                             aria-label="Close mobile menu"
                         >
                             <i className="ri-close-line"></i>
-                        </button> */}
+                        </button>
 
                         <div className={style["userView"]}>
                             <div className={style["userImg"]}>
                                 <img src={userImage} alt="user_img" />
                             </div>
-                            <div className={style["userNameSection"]}>
-                                <span className={style["userName"]}>{userName ? userName : "User Kumar"}</span>
-                                <span className={style["userdesignation"]}>IT Engineer</span>
-                            </div>
+                            {
+                                isValidToken ? (
+                                    <>
+
+                                        <div className={style["userNameSection"]}>
+                                            <span className={style["userName"]}>{capitalizeFirstWord(userName)}</span>
+                                            <span className={style["userdesignation"]}>IT Engineer</span>
+                                        </div>
+                                    </>
+                                ) : (<></>)
+                            }
                         </div>
 
                         <nav className={style["mobile-menu-links"]}>
@@ -194,27 +212,38 @@ function Navbar() {
                                 <FaHome />
                                 <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Home</Link>
                             </div>
+                            {
+                                isValidToken ? (
+                                    <div className={style["mobile-menu-list"]}>
+                                        <FaTachometerAlt />
+                                        <Link to="/user-dashboard" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Dashboard</Link>
+                                    </div>
+                                ) : (<></>)
+                            }
                             <div className={style["mobile-menu-list"]}>
                                 <FaInfoCircle />
                                 <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>
                             </div>
-                            <div className={style["mobile-menu-list"]}>
-                                <FaUserPlus />
-                                <Link to="/register" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Register</Link>
-                            </div>
+
 
                             {
                                 isValidToken ? (
-
-                                    <div className={style["mobile-menu-list"]}>
-                                        <FaSignOutAlt />
-                                        <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Log Out</Link>
-                                    </div>
-                                ) : (
                                     <div className={style["mobile-menu-list"]}>
                                         <FaSignInAlt />
-                                        <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Login</Link>
+                                        <Link to="/login" className={style["mobile-menu-link"]} onClick={() => { closeMobileMenu(); logOut(); }} >Log Out</Link>
                                     </div>
+                                ) : (
+                                    <>
+                                        <div className={style["mobile-menu-list"]}>
+                                            <FaUserPlus />
+                                            <Link to="/register" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Register</Link>
+                                        </div>
+                                        <div className={style["mobile-menu-list"]}>
+                                            <FaSignOutAlt />
+                                            <Link to="/login" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Log In</Link>
+                                        </div>
+                                    </>
+
                                 )
                             }
 

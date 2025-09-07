@@ -15,6 +15,10 @@ import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
 // import AdminLogin from './Pages/Login/AdminLogin';
 import TermAndCondition from './Pages/TermCondition/TermAndCondition';
 import PrivacyPolicy from './Pages/PrivacyPolicy/PrivacyPolicy';
+import OtpLogin from './Pages/OtpLogin/OtpLogin';
+import Notifications from './Pages/Notifications/Notifications';
+
+
 
 
 
@@ -27,10 +31,12 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/verify-otp" element={<OtpVerify />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/otp-login" element={<OtpLogin />} />
 
                 <Route path="/user-dashboard" element={<UserDashboard />} />
                 <Route path="/user-profile" element={<UserProfile />} />
                 <Route path="/donate" element={<Donate />} />
+                <Route path="/notifications" element={<Notifications />} />
 
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 {/* <Route path="/admin-login" element={<AdminLogin />} /> */}

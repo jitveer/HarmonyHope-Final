@@ -9,10 +9,7 @@ const myDonation = require('./routes/donation.js');
 
 
 const app = express();
-app.use(cors({
-  origin: ["http://10.240.144.57:5173/"], // apne laptop ka IP + port
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 
