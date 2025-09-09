@@ -141,8 +141,8 @@ const Login = ({ onLogin }) => {
 
         <div className="login-footer">
           <div className="help-links">
-            <a href="/forgot-password">Forgot Password?</a>
-            <a href="/register">Don't have an account? Sign up</a>
+            <a href="/otp-login">Forgot Password?</a>
+            <span> Don't have an account?<a href="/register"> Sign up</a></span>
           </div>
         </div>
       </div>

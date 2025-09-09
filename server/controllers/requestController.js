@@ -1,6 +1,6 @@
 const Request = require("../models/Request");
 const User = require("../models/User");
-
+const Notification = require("../models/Notifications");
 
 // Create new Request (User)
 
@@ -104,13 +104,49 @@ exports.getAllRequests = async (req, res) => {
 
 
 // Admin: Update status (approve/reject)
+// exports.updateRequestStatus = async (req, res) => {
+//   try {
+//     const adminId = req.user.userId;
+//     const { id } = req.params;
+//     const { status } = req.body; // "approved" | "rejected"
+
+//     const message = `Your request is ${status}`;
+
+
+//       console.log(adminId, id, status);
+
+//     if (!["approved", "rejected"].includes(status)) {
+//       return res.status(400).json({ message: "Invalid status" });
+//     }
+
+//     const update = {
+//       status,
+//       reviewedBy: adminId,
+//       approvedAt: status === "approved" ? new Date() : undefined,
+//     };
+
+//     const doc = await Request.findByIdAndUpdate({ _id: id }, update, { new: true });
+//     if (!doc) return res.status(404).json({ message: "Request not found" });
+
+//     res.json({ message: "Status updated", request: doc });
+
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
+
+
+// Admin: Update status (approve/reject)
 exports.updateRequestStatus = async (req, res) => {
   try {
     const adminId = req.user.userId;
     const { id } = req.params;
     const { status } = req.body; // "approved" | "rejected"
-
-    console.log(adminId, id, status);
 
     if (!["approved", "rejected"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
@@ -125,14 +161,36 @@ exports.updateRequestStatus = async (req, res) => {
     const doc = await Request.findByIdAndUpdate({ _id: id }, update, { new: true });
     if (!doc) return res.status(404).json({ message: "Request not found" });
 
-    res.json({ message: "Status updated", request: doc });
+
+
+
+    // // CREATE NOTIFICATION
+
+    // // 🔹 Step 1: Title & Message set karo
+    // const title = status === "approved" ? "Request Approved" : "Request Rejected";
+    // const message =
+    //   status === "approved"
+    //     ? "Your request has been approved successfully."
+    //     : "Your request has been rejected. Please review the reason or contact admin.";
+
+    // // 🔹 Step 2: Notification DB me insert karo
+    // try {
+    //   await Notification.create({
+    //     userId: doc.userId, // jis user ka request tha
+    //     title,
+    //     message,
+    //     type: status === "approved" ? "success" : "warning",
+    //   });
+    // } catch (notifError) {
+    //   console.error("Notification creation failed:", notifError.message);
+    // }
+
+    // res.json({ message: "Status updated", request: doc });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
 
 
 

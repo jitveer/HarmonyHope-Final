@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require('../models/User');
+const Otp = require("../models/Otp");
 const bcrypt = require("bcrypt");
 
 
@@ -29,7 +30,7 @@ exports.getUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-  
+
 
     // ✅ Generate token
     const token = jwt.sign(
@@ -108,3 +109,104 @@ exports.updateUserData = async (req, res) => {
   }
 
 };
+
+
+
+
+
+// Otp Login for
+exports.sendOtp = async (req, res) => {
+
+  try {
+    const inputData = req.body;
+    let query = null; // email ya phone number
+
+    if (!inputData) {
+      return res.status(400).json({ message: "Email or phone number is required" });
+    }
+
+    if ("email" == Object.keys(req.body)) {
+      query = inputData;
+      console.log(query)
+    } else if ("phone" == Object.keys(req.body)) {
+      query = inputData;
+      console.log(query)
+
+    }
+
+    // Find user in database
+    const user = await User.findOne(query);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate a 6-digit OTP
+    const otpCode = Math.floor(10000000 + Math.random() * 90000000); // 8-digit random number
+
+    // Save OTP to database
+    await Otp.create({
+      email: user.email,
+      otp: otpCode,
+      expiresAt: Date.now() + 2 * 60 * 1000, // 5 minutes expiry
+    });
+
+    // TODO: Send OTP to email or phone
+    // console.log(`OTP for ${inputData}: ${otpCode}`);
+
+    return res.status(200).json({
+      message: "OTP sent successfully",
+      userId: user._id, // frontend me use ho sakta hai
+    });
+
+  } catch (error) {
+    console.error("Error in sendOtp:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+
+};
+
+
+
+
+
+// verify otp 
+exports.verifyOtp = async (req, res) => {
+
+  try {
+    const { inputValue, otp } = req.body;
+
+    if (!inputValue || !otp) {
+      return res.status(400).json({ message: "Fill all the field" });
+    }
+
+    // Find user in database
+    const user = await Otp.findOne({email:inputValue,otp});
+
+    if (user.otp === otp) {
+      // ✅ Generate token
+      const token = jwt.sign(
+        { userId: user._id, role: user.role },
+        process.env.JWT_SECRET || "MY_SECRET_KEY",
+        { expiresIn: "8h" }
+      );
+
+      // Send response
+      res.status(200).json({
+        message: "Login successful",
+        token,
+        user: {
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role
+        }
+      });
+
+    }
+
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+
+}

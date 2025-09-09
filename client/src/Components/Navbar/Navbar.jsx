@@ -4,10 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserTokenValidation } from "../UserTokenVerification/UserTokenVerification";
 import userImage from "/src/assets/user-profile.png";
 import logo from "/src/assets/hormony_hope_charity_logo.png";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 /* ICONS */
-import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt, FaBell } from "react-icons/fa";
 
 
 function Navbar() {
@@ -45,6 +46,34 @@ function Navbar() {
         const [firstWord, ...rest] = text.split(" ");
         return `${firstWord.charAt(0).toUpperCase() + firstWord.slice(1)} ${rest.join(" ")}`;
     }
+
+
+
+    //CHECK NOTIFICATION 
+    const checkNotification = () => {
+        if (isValidToken) {
+            navigate("/notifications");
+        } else {
+            toast.info("Please Login First to see your notification.");
+            navigate("/login");
+        }
+    }
+
+
+    //CHECK USER PROFILE 
+    const checkUserProfile = () => {
+        if (isValidToken) {
+            navigate("/user-dashboard", {
+                position: "bottom-right",
+                autoClose: 2000,
+                theme: "colored",
+            });
+        } else {
+            toast.info("Please Login First to see your notification.");
+            navigate("/login");
+        }
+    }
+
 
 
 
@@ -103,10 +132,11 @@ function Navbar() {
 
 
 
-
-
     return (
         <>
+
+            {/*FOR NOTIFICATIO USIN TOAST LIBRARY*/}
+            <ToastContainer />
 
             <nav className={style.navbar}>
                 <div className={style["navbar-container"]}>
@@ -135,15 +165,16 @@ function Navbar() {
                         </div>
 
                         <div className={style["navbar-actions"]}>
-                            <div className={style["navbar-icon"]}>
-                                <i className="ri-notification-line"></i>
+                            <div className="notification-bell">
+                                <i className="ri-notification-line" onClick={checkNotification}>
+                                </i>
                             </div>
                             {/* <div className={[ style["navbar-icon"] , style["navbar-profile-icon"] ].join(" ") }> */}
-                            <div className={`${style["navbar-icon"]} ${style["navbar-profile-icon"]}`}>
+                            <div className={`${style["navbar-icon"]} ${style["navbar-profile-icon"]}`} onClick={checkUserProfile} >
                                 {
                                     isValidToken ? (
                                         <div className={style["profile-icon-container"]}>
-                                            <Link to="/user-profile"><i className="ri-user-line"></i></Link>
+                                            <div to="/user-profile" onClick={checkUserProfile}><i className="ri-user-line"></i></div>
                                             <span>{capitalizeFirstWord(userName)}</span>
                                             <button onClick={logOut}>Log Out</button>
                                         </div>
@@ -220,6 +251,10 @@ function Navbar() {
                                     </div>
                                 ) : (<></>)
                             }
+                            <div className={style["mobile-menu-list"]}>
+                                <FaBell />
+                                <Link to="/notifications" className={style["mobile-menu-link"]} onClick={() => { closeMobileMenu(), checkNotification() }}>Notifications</Link>
+                            </div>
                             <div className={style["mobile-menu-list"]}>
                                 <FaInfoCircle />
                                 <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>

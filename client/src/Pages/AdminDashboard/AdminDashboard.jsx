@@ -129,6 +129,7 @@ const AdminDashboard = () => {
     setFilteredRequests(filtered);
   }, [requests, searchQuery, statusFilter, categoryFilter, dateFilter]);
 
+  
   // 🔹 Clear all active filters
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -182,7 +183,7 @@ const AdminDashboard = () => {
       <div className="dashboardContainer">
         <div className="rightSide">
           <div className="tabContainer">
-            <div className="totalDonation">
+            <div className="totalDonation top-cards">
               <div className="textpart">
                 <p>Total Donations</p>
                 <h2>0</h2>
@@ -193,7 +194,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="pendingRequests">
+            <div className="pendingRequests top-cards">
               <div className="textpart">
                 <p>Pending Requests</p>
                 <h2>{requests.filter((r) => r.status === "pending").length}</h2>
@@ -204,7 +205,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="approvedRequests">
+            <div className="approvedRequests top-cards">
               <div className="textpart">
                 <p>Approved Requests</p>
                 <h2>
@@ -217,7 +218,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="totalBeneficiaries">
+            <div className="totalBeneficiaries top-cards">
               <div className="textpart">
                 <p>Total Beneficiaries</p>
                 <h2>{requests.length}</h2>

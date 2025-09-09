@@ -40,7 +40,7 @@ const OtpLogin = () => {
     }
 
     try {
-      // Call API to send OTP
+      // Call API to Generate opt
       const response = await fetch("http://localhost:5000/api/user/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,6 +62,7 @@ const OtpLogin = () => {
     }
   };
 
+
   // Verify OTP
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
@@ -73,6 +74,7 @@ const OtpLogin = () => {
 
     try {
       // Call API to verify OTP
+      alert("i am here")
       const response = await fetch("http://localhost:5000/api/user/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,7 +85,7 @@ const OtpLogin = () => {
 
       if (response.ok) {
         alert("OTP Verified Successfully!");
-        navigate("/home");
+        navigate("/user-dashboard");
       } else {
         setError(data.message || "Invalid OTP");
       }

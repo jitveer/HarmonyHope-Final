@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userTokenChecking = require("../middlewares/authenticateUser");
-const { getUserById, getMyProfile, updateUserData, getUser } = require("../controllers/userController");
+const { getUserById, getMyProfile, updateUserData, getUser, sendOtp, verifyOtp } = require("../controllers/userController");
 
 
 
@@ -21,6 +21,15 @@ router.get("/:id", userTokenChecking, getUserById);
 
 //UPDATE USER BY ID
 router.put("/:id", userTokenChecking, updateUserData);
+
+
+//LOGIN USER WITH OTP
+router.post("/send-otp", sendOtp);
+
+//Verify Above otp 
+router.post("/verify-otp", verifyOtp);
+
+
 
 
 module.exports = router;
