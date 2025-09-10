@@ -127,14 +127,12 @@ exports.sendOtp = async (req, res) => {
 
     if ("email" == Object.keys(req.body)) {
       query = inputData;
-      console.log(query)
     } else if ("phone" == Object.keys(req.body)) {
       query = inputData;
-      console.log(query)
-
     }
 
     // Find user in database
+    await Otp.deleteOne(query);
     const user = await User.findOne(query);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -146,8 +144,9 @@ exports.sendOtp = async (req, res) => {
     // Save OTP to database
     await Otp.create({
       email: user.email,
+      phone: user.phone,
       otp: otpCode,
-      expiresAt: Date.now() + 2 * 60 * 1000, // 5 minutes expiry
+      expiresAt: Date.now() + 1 * 60 * 1000,
     });
 
     // TODO: Send OTP to email or phone
@@ -175,37 +174,83 @@ exports.verifyOtp = async (req, res) => {
   try {
     const { inputValue, otp } = req.body;
 
+    let query = null;
+
     if (!inputValue || !otp) {
       return res.status(400).json({ message: "Fill all the field" });
     }
 
+
+    function checkType(value) {
+      // Number check
+      if (!isNaN(value) && value.trim() !== "") {
+        return "number";
+      }
+      return "string";
+    }
+
+    const valueType = checkType(inputValue);
+
+
+    // console.log(valueType)
+    if ("number" === valueType) {
+      query = "phone";
+    } else if ("string" === valueType) {
+      query = "email";
+    }
+
+    // console.log("click on veriy =>" + query);
+    // console.log("click on veriy =>" + inputValue);
+
     // Find user in database
-    const user = await Otp.findOne({email:inputValue,otp});
+    const user = await Otp.findOne({ [query]: inputValue });
+    // console.log(user);
 
-    if (user.otp === otp) {
-      // ✅ Generate token
-      const token = jwt.sign(
-        { userId: user._id, role: user.role },
-        process.env.JWT_SECRET || "MY_SECRET_KEY",
-        { expiresIn: "8h" }
-      );
+    const expiryDate = new Date(user.expiresAt);
+    const nowDate = new Date();
 
-      // Send response
-      res.status(200).json({
-        message: "Login successful",
-        token,
-        user: {
-          userId: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role
-        }
-      });
+
+    if (nowDate <= expiryDate) {
+
+
+      if (user.otp === otp) {
+
+        const findUserdata = await User.findOne({ email: user.email });
+        // console.log(findUserdata)
+
+
+        // ✅ Generate token
+        const token = jwt.sign(
+          { userId: findUserdata._id, role: findUserdata.role },
+          process.env.JWT_SECRET || "MY_SECRET_KEY",
+          { expiresIn: "8h" }
+        );
+
+
+        // Send response
+        res.status(200).json({
+          message: "Login successful",
+          token,
+          user: {
+            userId: findUserdata._id,
+            name: findUserdata.name,
+            email: findUserdata.email,
+            role: findUserdata.role
+          }
+        });
+        await Otp.deleteOne({ [query]: inputValue });
+
+      }
+
+
 
     }
 
+
+
+
   } catch (error) {
-    console.error("Error in getUser:", error);
+    // console.error("Error in getUser:", error);
     res.status(500).json({ message: "Server error" });
   }
 

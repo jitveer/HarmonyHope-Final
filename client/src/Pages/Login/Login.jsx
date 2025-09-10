@@ -6,8 +6,6 @@ import { useUserTokenValidation } from "../../Components/UserTokenVerification/U
 
 
 
-
-
 const Login = ({ onLogin }) => {
 
   const navigate = useNavigate();
@@ -22,12 +20,10 @@ const Login = ({ onLogin }) => {
   const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
 
-
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
-
 
 
   const handleSubmit = async (e) => {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import style from './OtpLogin.module.css';
-// import "./OtpLogin.module.css";
+import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
 
-const OtpLogin = () => {
+
+const OtpLogin = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState("");
@@ -11,6 +11,9 @@ const OtpLogin = () => {
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState("");
+
+  const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+
 
   // Handle Input Change
   const handleChange = (e) => {
@@ -68,13 +71,13 @@ const OtpLogin = () => {
     e.preventDefault();
 
     if (otp.length !== 8) {
-      setError("Please enter a valid 8-digit OTP");
+      setError("Please enter a valid digit OTP");
       return;
     }
 
     try {
       // Call API to verify OTP
-      alert("i am here")
+
       const response = await fetch("http://localhost:5000/api/user/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,12 +86,23 @@ const OtpLogin = () => {
 
       const data = await response.json();
 
+
       if (response.ok) {
+        setIsValidToken(true);
+        setUserId(data.user.userId);
+
+        localStorage.setItem('token', data.token);
         alert("OTP Verified Successfully!");
+        if (onLogin) onLogin(data.token);
+
         navigate("/user-dashboard");
+
       } else {
-        setError(data.message || "Invalid OTP");
+        setError(data.message || 'Invalid credentials');
       }
+
+
+
     } catch (error) {
       setError("Network error. Please try again.");
     }
@@ -132,7 +146,7 @@ const OtpLogin = () => {
               <input
                 id="otp"
                 type="text"
-                placeholder="8-digit OTP"
+                placeholder="Enter OTP"
                 value={otp}
                 maxLength={8}
                 onChange={(e) => setOtp(e.target.value)}
