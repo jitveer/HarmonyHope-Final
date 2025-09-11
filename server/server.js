@@ -13,6 +13,10 @@ app.use(cors());
 app.use(express.json());
 
 
+app.use('/', (req, res) => {
+  res.status(200).send("hello");
+});
+
 // USER RESGISTRATION AND OTP VERIFICATION
 app.use('/api/auth', userRegistrationWtihOtp);
 
@@ -26,6 +30,9 @@ app.use('/api/requests', requestRoutes);
 // DONATION API
 app.use('/api', myDonation);
 
+app.use('/', (req, res) => {
+  res.json("hello")
+});
 
 
 // MONGODB CONNECTION

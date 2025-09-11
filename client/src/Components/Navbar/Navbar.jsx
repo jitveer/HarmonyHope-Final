@@ -63,7 +63,7 @@ function Navbar() {
     //CHECK USER PROFILE 
     const checkUserProfile = () => {
         if (isValidToken) {
-            navigate("/user-dashboard", {
+            navigate("/user-profile", {
                 position: "bottom-right",
                 autoClose: 2000,
                 theme: "colored",
@@ -174,8 +174,8 @@ function Navbar() {
                                 {
                                     isValidToken ? (
                                         <div className={style["profile-icon-container"]}>
-                                            <div to="/user-profile" onClick={checkUserProfile}><i className="ri-user-line"></i></div>
-                                            <span>{capitalizeFirstWord(userName)}</span>
+                                            <div onClick={checkUserProfile}><i className="ri-user-line"></i></div>
+                                            {/* <span>{capitalizeFirstWord(userName)}</span> */}
                                             <button onClick={logOut}>Log Out</button>
                                         </div>
 

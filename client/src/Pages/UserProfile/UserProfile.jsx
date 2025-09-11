@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import style from './UserProfile.module.css';
-import { UserTokenVerification } from '../../Components/UserTokenVerification/UserTokenVerification';
+import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
 import { useNavigate } from 'react-router-dom';
 
 
 function UserProfile() {
     const [editMode, setEditMode] = useState(false);
     const [selectedImage, setSelectedImage] = useState("src/assets/react.svg");
-    const { isValid, userId } = UserTokenVerification(); // token se userId mil rahi hai 
+    const { isValid, userId } = useUserTokenValidation(); // token se userId mil rahi hai 
 
     // const [tokenCheck, setTokenCheck] = useState();
     const navigate = useNavigate();
