@@ -17,6 +17,7 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [paswrdEye, setPaswrdEye] = useState(true);
   const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
 
@@ -70,6 +71,12 @@ const Login = ({ onLogin }) => {
     }
 
     setIsLoading(false);
+  }
+
+
+  // PASSWORD EYE
+  const showPassword = () => {
+    paswrdEye ? setPaswrdEye(false) : setPaswrdEye(true);
   }
 
 
@@ -128,6 +135,42 @@ const Login = ({ onLogin }) => {
               onChange={handleChange}
               required
             />
+
+
+
+
+            <button
+              type="button"
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+              }}
+              tabIndex="-1"
+              aria-label="Show password"
+            >
+              {/* Eye Icon SVG */}
+              <div className="eye" onClick={showPassword}>
+                {
+                  paswrdEye ?
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c2.5 3 5.5 4.5 10 4.5s7.5-1.5 10-4.5" /><path d="M4 12c2 1.6 4.5 2.4 8 2.4s6-0.8 8-2.4" /><path d="M6 10l-1.5-1" /><path d="M10 9.5L9 8" /><path d="M14 9.5l1-1.5" /><path d="M18 10l1.5-1" /></svg>
+                    :
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                }
+              </div>
+            </button>
+
+
+
+
           </div>
 
           <button type="submit" className="login-button" disabled={isLoading}>

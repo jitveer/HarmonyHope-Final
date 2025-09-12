@@ -1,43 +1,19 @@
-/* Footer - Improved Design & Responsiveness */
+/* =======================
+   FOOTER - DESKTOP (Default)
+   ======================= */
 .footer {
   background: linear-gradient(135deg, #111827 60%, #1e293b 100%);
   color: #fff;
-  padding: 2.5rem 1.25rem;
+  padding: 4rem 0;
   box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.08);
-}
-
-@media (min-width: 640px) {
-  .footer {
-    padding: 3rem 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .footer {
-    padding: 4rem 0;
-  }
 }
 
 .footer-grid {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: 1fr;
+  gap: 3rem;
+  grid-template-columns: 2fr 1fr 1fr;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-@media (min-width: 640px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .footer-grid {
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3rem;
-  }
 }
 
 .footer-brand {
@@ -45,12 +21,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-@media (min-width: 1024px) {
-  .footer-brand {
-    grid-column: span 1;
-  }
 }
 
 .footer-brand-title {
@@ -131,52 +101,32 @@
 .footer-bottom {
   border-top: 1px solid #222b3a;
   margin-top: 2.5rem;
-  padding-top: 1.5rem;
+  padding-top: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media (min-width: 640px) {
-  .footer-bottom {
-    flex-direction: row;
-    gap: 0;
-    padding-top: 2rem;
-  }
-}
-
 .footer-copyright {
   color: #94a3b8;
   font-size: 0.95rem;
-  text-align: center;
+  text-align: left;
   letter-spacing: 0.1px;
-}
-
-@media (min-width: 640px) {
-  .footer-copyright {
-    text-align: left;
-  }
 }
 
 .footer-made-with {
   color: #94a3b8;
   font-size: 0.95rem;
-  text-align: center;
+  text-align: right;
   display: flex;
   align-items: center;
   gap: 0.3em;
-}
-
-@media (min-width: 640px) {
-  .footer-made-with {
-    text-align: right;
-    justify-content: flex-end;
-  }
+  justify-content: flex-end;
 }
 
 .heart-icon {
@@ -186,65 +136,90 @@
   margin: 0 0.15em;
 }
 
-/* Extra: Make sure links and icons are accessible on mobile */
+/* =======================
+   FOOTER - TABLET (<= 1024px)
+   ======================= */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 3rem 2rem;
+  }
 
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+    align-items: center;
+  }
+  
+  .footer-brand-description{
+    width: 80%;
+    max-width: none;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+    padding-top: 1.5rem;
+  }
+
+  .footer-copyright,
+  .footer-made-with {
+    text-align: center;
+  }
+
+  .row1,.row2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+}
+
+/* =======================
+   FOOTER - MOBILE (<= 767px)
+   ======================= */
 @media (max-width: 767px) {
-
   .footer {
     padding: 2rem 0.5rem;
     text-align: center;
   }
 
-  .footer-brand-title {
-    font-size: 1.3rem;
+  .footer-grid {
+    gap: 0.9rem;
   }
 
-  .footer-brand-description {
-    font-size: 0.98rem;
-  }
-
-  .footer-links-title {
-    font-size: 1rem;
-  }
-
-  .footer-links-list {
-    font-size: 0.98rem;
-  }
-
-  /* .section-container {
-    text-align: center;
+  .footer-brand {
     align-items: center;
-    justify-content: center;
-  } */
-
-  .footer-links-title {
-    font-size: 1.2rem;
+    text-align: center;
   }
 
   .footer-brand-title {
     font-size: 1.7rem;
   }
 
-  .footer-brand {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+  .footer-brand-description {
+    font-size: 0.98rem;
+  }
+
+
+
+
+
+  .footer-links-title {
+    font-size: 1.2rem;
   }
 
   .footer-links-list {
     list-style-type: none;
     margin-left: 0;
     padding-left: 0;
+    font-size: 0.98rem;
   }
-
-  .ctaDesc {
-    font-size: 5rem !important;
-  }
-
-  .footer{
-    display: none;
-  }
-
-
-
 }

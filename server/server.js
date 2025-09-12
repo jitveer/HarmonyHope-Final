@@ -13,9 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use('/', (req, res) => {
-  res.status(200).send("hello");
-});
 
 // USER RESGISTRATION AND OTP VERIFICATION
 app.use('/api/auth', userRegistrationWtihOtp);

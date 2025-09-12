@@ -1,7 +1,22 @@
 import React, { useEffect } from "react";
 import styles from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
+import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Home() {
+
+    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+
+    const navigator = useNavigate();
+
+    function navigating() {
+        isValidToken ? navigator('/donate') : navigator('/login')(toast.info("Please Login First to see your notification."));
+    }
+
+
+
+
     useEffect(() => {
         // Hero animations
         const counters = document.querySelectorAll('.donation-counter');
@@ -32,6 +47,9 @@ function Home() {
         counters.forEach(counter => observer.observe(counter));
     }, []);
 
+
+
+
     useEffect(() => {
         // Smooth scroll
         const scrollIndicator = document.querySelector('.animate-bounce')?.parentElement;
@@ -45,6 +63,7 @@ function Home() {
             });
         }
     }, []);
+
 
     useEffect(() => {
         // Button interactions
@@ -98,11 +117,11 @@ function Home() {
                                     </p>
                                 </div>
                                 <div className={styles.heroBtnRow}>
-                                    <button className={styles.donateBtn}>
+                                    <button className={styles.donateBtn} onClick={navigating}>
                                         <div className={styles.btnIcon}><i className="ri-heart-fill"></i></div>
                                         Donate Now
                                     </button>
-                                    <button className={styles.requestBtn}>
+                                    <button className={styles.requestBtn} onClick={() => { isValidToken ? navigator('/request') : navigator('/login')(toast.info("Please Login First to see your notification.")) }}>
                                         <div className={styles.btnIcon}><i className="ri-hand-heart-line"></i></div>
                                         Request Help
                                     </button>
@@ -267,7 +286,7 @@ function Home() {
                             Join thousands of colleagues who believe in the power of community support. Every contribution, no matter the size, creates ripples of positive change.
                         </p>
                         <div className={styles.ctaBtnRow}>
-                            <button className={styles.ctaDonateBtn}>
+                            <button className={styles.ctaDonateBtn} onClick={() => { isValidToken ? navigator('/donate') : navigator('/login')(toast.info("Please Login First to see your notification.")) }}>
                                 <div className={styles.btnIcon}><i className="ri-heart-fill"></i></div>
                                 Start Donating
                             </button>
