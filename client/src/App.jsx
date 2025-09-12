@@ -17,8 +17,8 @@ import TermAndCondition from './Pages/TermCondition/TermAndCondition';
 import PrivacyPolicy from './Pages/PrivacyPolicy/PrivacyPolicy';
 import OtpLogin from './Pages/OtpLogin/OtpLogin';
 import Notifications from './Pages/Notifications/Notifications';
-
-
+import AboutUs from './Pages/AboutUs/AboutUs';
+import ContactUs from './Pages/ContactUs/ContactUs';
 
 
 
@@ -41,6 +41,8 @@ const App = () => {
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 {/* <Route path="/admin-login" element={<AdminLogin />} /> */}
 
+                <Route path="/about_us" element={<AboutUs />} />
+                <Route path="/contact_us" element={<ContactUs />} />
                 <Route path="/term_condition" element={<TermAndCondition />} />
                 <Route path="/privacypolicy" element={<PrivacyPolicy />} />
 

@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 /* ICONS */
-import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt, FaBell } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt, FaBell, FaPhoneAlt    } from "react-icons/fa";
 
 
 function Navbar() {
@@ -148,7 +148,8 @@ function Navbar() {
 
                         <div className={style["navbar-menu"]}>
                             <Link to="/" className={style["navbar-link"]}>Home</Link>
-                            <Link to="/" className={style["navbar-link"]}>About Us</Link>
+                            <Link to="/about_us" className={style["navbar-link"]}>About Us</Link>
+                            <Link to="/contact_us" className={style["navbar-link"]}>Contact Us</Link>
 
                             {
                                 isValidToken ? (
@@ -257,7 +258,11 @@ function Navbar() {
                             </div>
                             <div className={style["mobile-menu-list"]}>
                                 <FaInfoCircle />
-                                <Link to="/" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About</Link>
+                                <Link to="/about_us" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About Us</Link>
+                            </div>
+                            <div className={style["mobile-menu-list"]}>
+                                <FaPhoneAlt   />
+                                <Link to="/contact_us" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Contact Us</Link>
                             </div>
 
 
