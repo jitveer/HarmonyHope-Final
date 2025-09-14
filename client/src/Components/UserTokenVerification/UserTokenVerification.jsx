@@ -46,7 +46,6 @@ export const UserTokenVerification = ({ children }) => {
     }, [isValidToken, userId]);
 
 
-
     return (
         <TokenContext.Provider
             value={{ isValidToken, setIsValidToken, userId, setUserId }}

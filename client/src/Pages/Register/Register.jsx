@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
+import styles from './Register.module.css';
+import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
 // import ReCAPTCHA from "react-google-recaptcha";
-
 
 
 function Register() {
@@ -13,17 +13,21 @@ function Register() {
         phone: "",
         password: ""
     })
-    // const [captchaValue, setCaptchaValue] = useState(null);
+    const [checkBoxCheck, setCheckBoxCheck] = useState(false);
     const navigate = useNavigate();
     const [paswrdEye, setPaswrdEye] = useState(true);
-    // const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setRegister({ ...register, [name]: value });
-        // console.log(register);
-    }
 
+        if (name === "phone" && (!/^\d*$/.test(value))) {
+            return;
+        }
+
+        setRegister({ ...register, [name]: value });
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,8 +67,6 @@ function Register() {
 
 
 
-
-
         // if (!captchaValue) {
         //     alert("Please verify the captcha!");
         //     return;
@@ -86,6 +88,7 @@ function Register() {
 
             if (response.ok) {
                 // console.log("Registration successful:", data);
+                setIsValidToken(true);
                 alert(data.message);
                 navigate("/verify-otp", { state: { email: email } });
             } else {
@@ -115,7 +118,13 @@ function Register() {
             }
         }
 
+
+        const checkButton = () => {
+
+        }
+
         checkToken();
+        checkButton();
     }, [])
 
 
@@ -124,8 +133,8 @@ function Register() {
     return (
 
         <>
-            <div className="register-container">
-                <div className="register-card">
+            <div className={styles["register-container"]}>
+                <div className={styles["register-card"]}>
                     {/* 👇 Profile Image Section */}
                     {/* <div style={{ textAlign: "center", marginBottom: "20px" }}>
                         <img
@@ -150,34 +159,34 @@ function Register() {
                         />
                         <p style={{ fontSize: "14px", color: "#666" }}>Click on image to choose profile</p>
                     </div> */}
-                    <div className="register-header">
+                    <div className={styles["register-header"]}>
                         <h1>Join Our Caring Community</h1>
                         <p>Make a difference by connecting with those in need</p>
                     </div>
 
-                    <form id="registrationForm" className="register-form" autoComplete="off" onSubmit={handleSubmit}>
-                        <div className="form-group">
+                    <form id="registrationForm" className={styles["register-form"]} autoComplete="off" onSubmit={handleSubmit}>
+                        <div className={styles["form-group"]}>
                             <label htmlFor="name">Full Name</label>
-                            <input type="text" id="name" name="name" required className="form-input" defaultValue="" autoComplete="off" onChange={handleChange} />
-                            <div id="nameError" className="form-error hidden"></div>
+                            <input type="text" id="name" name="name" required className={styles["form-input"]} defaultValue="" autoComplete="off" onChange={handleChange} />
+                            <div id="nameError" className={styles["form-error hidden"]}></div>
                         </div>
 
-                        <div className="form-group">
+                        <div className={styles["form-group"]}>
                             <label htmlFor="email">Email Address</label>
-                            <input type="email" id="email" name="email" required className="form-input" defaultValue="" autoComplete="off" onChange={handleChange} />
-                            <div id="emailError" className="form-error hidden"></div>
+                            <input type="email" id="email" name="email" required className={styles["form-input"]} defaultValue="" autoComplete="off" onChange={handleChange} />
+                            <div id="emailError" className={styles["form-error hidden"]}></div>
                         </div>
 
-                        <div className="form-group">
+                        <div className={styles["form-group"]}>
                             <label htmlFor="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required className="form-input" pattern="[0-9]{10,15}" defaultValue="" autoComplete="off" onChange={handleChange} />
-                            <div id="phoneError" className="form-error hidden"></div>
+                            <input type="tel" id="phone" name="phone" required className={styles["form-input"]} pattern="[0-9]{10,15}" defaultValue="" autoComplete="off" onChange={handleChange} value={register.phone} />
+                            <div id="phoneError" className={styles["form-error hidden"]}></div>
                         </div>
 
-                        <div className="form-group">
+                        <div className={styles["form-group"]}>
                             <label htmlFor="password">Password</label>
                             <div style={{ position: 'relative' }}>
-                                <input type={paswrdEye ? "password" : "text"} id="password" name="password" required className="form-input" autoComplete="new-password" defaultValue="" onChange={handleChange} />
+                                <input type={paswrdEye ? "password" : "text"} id="password" name="password" required className={styles["form-input"]} autoComplete="new-password" defaultValue="" onChange={handleChange} />
                                 <button
                                     type="button"
                                     style={{
@@ -194,7 +203,7 @@ function Register() {
                                     aria-label="Show password"
                                 >
                                     {/* Eye Icon SVG */}
-                                    <div className="eye" onClick={showPassword}>
+                                    <div className={styles["eye"]} onClick={showPassword}>
                                         {
                                             paswrdEye ?
                                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c2.5 3 5.5 4.5 10 4.5s7.5-1.5 10-4.5" /><path d="M4 12c2 1.6 4.5 2.4 8 2.4s6-0.8 8-2.4" /><path d="M6 10l-1.5-1" /><path d="M10 9.5L9 8" /><path d="M14 9.5l1-1.5" /><path d="M18 10l1.5-1" /></svg>
@@ -207,26 +216,18 @@ function Register() {
                                     </div>
                                 </button>
                             </div>
-                            <div id="passwordError" className="form-error hidden"></div>
+                            <div id="passwordError" className={styles["form-error hidden"]}></div>
                         </div>
 
-                        {/*  CAPTCHA CODE  */}
-                        {/* <div className="form-group">
-                            <ReCAPTCHA sitekey='6LeiubIrAAAAAOYQp8Fclt1_MaLtj6xcQg0cQqsV' onChange={(value) => setCaptchaValue(value)} />
-                        </div> */}
-
-                        <div className="form-group terms-group">
-                            <input type="checkbox" id="termsAccept" className="custom-checkbox" />
-                            <label htmlFor="termsAccept" className="terms-label">
-                                I agree to the <Link to="/term_condition" className="terms-link">Terms of Service</Link> and <Link to="/privacypolicy" className="terms-link">Privacy Policy</Link>
+                        <div className={styles["form-group terms-group"]} >
+                            <input type="checkbox" id="termsAccept" className={styles["custom-checkbox"]} checked={checkBoxCheck} onClick={() => checkBoxCheck ? setCheckBoxCheck(false) : setCheckBoxCheck(true)} />
+                            <label htmlFor="termsAccept" className={styles["terms-label"]}>
+                                I agree to the <Link to="/term_condition" className={styles["terms-link"]}>Terms of Service</Link> and <Link to="/privacypolicy" className={styles["terms-link"]}>Privacy Policy</Link>
                             </label>
                         </div>
 
-                        <button type="submit" id="submitBtn" className="submit-btn">
+                        <button type="submit" id="submitBtn" className={styles["submit-btn"]} disabled={checkBoxCheck ? false : true}>
                             <span id="submitText">Create Account</span>
-                            <div id="submitLoader" className="submit-loader hidden">
-                                <div className="loader-spinner"></div>
-                            </div>
                         </button>
                     </form>
                 </div>

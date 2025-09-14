@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./AdminDashboard.css";
+import styles from "./AdminDashboard.module.css";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,7 +17,6 @@ const AdminDashboard = () => {
   const [dateFilter, setDateFilter] = useState("");
 
   const handleApprove = async (status, id) => {
-
     try {
       const res = await fetch(`http://localhost:5000/api/requests/status/${id}`, {
         method: "PATCH",
@@ -181,79 +181,79 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="dashboardContainer">
-        <div className="rightSide">
-          <div className="tabContainer">
-            <div className="totalDonation top-cards">
-              <div className="textpart">
+      <div className={styles["dashboardContainer"]}>
+        <div className={styles["rightSide"]}>
+          <div className={styles["tabContainer"]}>
+            <div className={styles["totalDonation top-cards"]}>
+              <div className={styles["textpart"]}>
                 <p>Total Donations</p>
                 <h2>0</h2>
                 <p>12.5% vs last month</p>
               </div>
-              <div className="logopart">
-                <i className="ri-money-dollar-circle-line logo "></i>
+              <div className={styles["logopart"]}>
+                <i className="ri-money-dollar-circle-line logo"></i>
               </div>
             </div>
 
-            <div className="pendingRequests top-cards">
-              <div className="textpart">
+            <div className={styles["pendingRequests top-cards"]}>
+              <div className={styles["textpart"]}>
                 <p>Pending Requests</p>
                 <h2>{requests.filter((r) => r.status === "pending").length}</h2>
                 <p>= new today</p>
               </div>
-              <div className="logopart">
-                <i className="ri-time-line text-yellow-600 logo "></i>
+              <div className={styles["logopart"]}>
+                <i className="ri-time-line text-yellow-600 logo"></i>
               </div>
             </div>
 
-            <div className="approvedRequests top-cards">
-              <div className="textpart">
+            <div className={styles["approvedRequests top-cards"]}>
+              <div className={styles["textpart"]}>
                 <p>Approved Requests</p>
                 <h2>
                   {requests.filter((r) => r.status === "approved").length}
                 </h2>
                 <p>+ this week</p>
               </div>
-              <div className="logopart">
-                <i className="ri-check-line text-green-600 logo"></i>
+              <div className={styles["logopart"]}>
+                <i className={styles["ri-check-line text-green-600 logo"]}></i>
               </div>
             </div>
 
-            <div className="totalBeneficiaries top-cards">
-              <div className="textpart">
+            <div className={styles["totalBeneficiaries top-cards"]}>
+              <div className={styles["textpart"]}>
                 <p>Total Beneficiaries</p>
                 <h2>{requests.length}</h2>
                 <p>Total requests</p>
               </div>
-              <div className="logopart">
-                <i className="ri-group-line text-purple-600 logo "></i>
+              <div className={styles["logopart"]}>
+                <i className={styles["ri-group-line text-purple-600 logo "]}></i>
               </div>
             </div>
           </div>
 
-          <div className="donation-card">
+          <div className={styles["donation-card"]}>
             {/* Header Section */}
-            <div className="donation-header">
-              <div className="donation-header-top">
-                <h3 className="donation-title">Donation Requests</h3>
-                <button className="btn btn-primary" onClick={exportTableData}>
-                  <div className="btn-content">
-                    <i className="ri-download-line"></i>
+            <div className={styles["donation-header"]}>
+              <div className={styles["donation-header-top"]}>
+                <h3 className={styles["donation-title"]}>Donation Requests</h3>
+                <button className={styles["btn btn-primary"]} onClick={exportTableData}>
+                  <div className={styles["btn-content"]}>
+                    <i className={styles["ri-download-line"]}></i>
                     <span>Export Data</span>
                   </div>
                 </button>
               </div>
 
               {/* Filters */}
-              <div className="donation-filters">
-                <div className="search-box">
+              <div className={styles["donation-filters"]}>
+                <div className={styles["search-box"]}>
                   <input
                     type="text"
                     placeholder="Search requests..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  <i className="ri-search-line"></i>
+                  <i className={styles["ri-search-line"]}></i>
                 </div>
 
                 <select
@@ -282,14 +282,14 @@ const AdminDashboard = () => {
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.target.value)}
                 />
-                <button className="btn-clear" onClick={handleClearFilters}>
+                <button className={styles["btn-clear"]} onClick={handleClearFilters}>
                   Clear Filters
                 </button>
               </div>
             </div>
 
             {/* Table Section */}
-            <div className="table-wrapper">
+            <div className={styles["table-wrapper"]}>
               <table>
                 <thead>
                   <tr>
@@ -314,14 +314,14 @@ const AdminDashboard = () => {
                         </td>
                         <td>{req._id}</td>
                         <td>
-                          <div className="beneficiary">
+                          <div className={styles["beneficiary"]}>
                             <img
                               src={`https://ui-avatars.com/api/?name=${req.user?.name}`}
                               alt={req.user?.name}
                             />
                             <div>
-                              <div className="name">{req.user?.name}</div>
-                              <div className="email">{req.user?.email}</div>
+                              <div className={styles["name"]}>{req.user?.name}</div>
+                              <div className={styles["email"]}>{req.user?.email}</div>
                             </div>
                           </div>
                         </td>
@@ -337,13 +337,13 @@ const AdminDashboard = () => {
                         </td>
                         <td>
                           <button
-                            className="btn btn-green"
+                            className={styles["btn btn-green"]}
                             onClick={() => handleApprove("approved", req._id)}
                           >
                             Approve
                           </button>
                           <button
-                            className="btn btn-red"
+                            className={styles["btn btn-red"]}
                             onClick={() => handleApprove("rejected", req._id)}
                           >
                             Reject

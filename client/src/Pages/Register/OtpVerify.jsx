@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import './Register.css';
-import './OtpVerify.css';
+import styles from './OtpVerify.module.css';
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useUserTokenValidation } from '../../Components/UserTokenVerification/UserTokenVerification';
 
@@ -48,12 +47,39 @@ const OtpVerify = () => {
         }
     };
 
-    const handleResend = () => {
+    const handleResend = async() => {
         setOtp(Array(6).fill(""));
         setTimer(60);
         setResendVisible(false);
         inputsRef.current[0]?.focus();
         //API call to resend OTP
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    otp: otpCode
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setIsValidToken(true);
+                setUserId(data.user.userId);
+                console.log(" OTP Verified Successfully: ", data);
+                alert("You are succesfully register");
+                localStorage.setItem("token", data.token);
+                navigation("/user-dashboard", { state: { email: email } });
+            } else {
+                console.error("OTP Verification Failed:", data.message);
+            }
+        } catch (err) {
+            console.error("Error verifying OTP:", err);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -94,20 +120,20 @@ const OtpVerify = () => {
 
 
     return (
-        <div className="otp-container">
-            <div className="otp-card">
-                <form className="register-form" autoComplete="off" onSubmit={handleSubmit}>
-                    <div className="otp-header">
+        <div className={styles["otp-container"]}   >
+            <div className={styles["otp-card"]}   >
+                <form className={styles["register-form"]} autoComplete="off" onSubmit={handleSubmit}>
+                    <div className={styles["otp-header"]}   >
                         <label>Email Verification</label>
                     </div>
 
-                    <div className="otp-inputs">
+                    <div className={styles["otp-inputs"]}   >
                         {otp.map((digit, index) => (
                             <input
                                 key={index}
                                 type="text"
                                 maxLength="1"
-                                className="otp-input"
+                                className={styles["otp-input"]}
                                 value={digit}
                                 onChange={(e) => handleChange(e, index)}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
@@ -117,17 +143,16 @@ const OtpVerify = () => {
                         ))}
                     </div>
 
-
                     {/* RESEND OTP BUTTON & TIMER */}
 
-                    <div className="otp-resend" style={{ marginTop: '10px' }}>
+                    <div className={styles["otp-resend"]} styles={{ marginTop: '10px' }}>
                         {!resendVisible ? (
                             <span id="countdown">Resend OTP in ({timer}s)</span>
                         ) : (
                             <button
                                 type="button"
                                 id="resendOtpBtn"
-                                className="otp-btn"
+                                className={styles["otp-btn"]}
                                 onClick={handleResend}
                             >
                                 Resend OTP
@@ -138,19 +163,14 @@ const OtpVerify = () => {
                     {/* SUBMIT OTP */}
                     <button
                         type="submit"
-                        className="submit-btn"
-                        style={{ marginTop: '20px' }}
+                        className={styles["submit-btn"]}
+                        styles={{ marginTop: '20px' }}
                         disabled={otp.includes("")}
                     >
                         <span>Verify OTP</span>
                     </button>
                 </form>
-
-                <div className="register-footer">
-                    <p>
-                        Already have an account? <Link to="/" className="signin-link">Sign in here</Link>
-                    </p>
-                </div>
+                
             </div>
         </div>
     );

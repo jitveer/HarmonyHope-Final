@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import './Login.css';
+import styles from "./Login.module.css";
+// import './Login.css';
 import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
 
 const Login = ({ onLogin }) => {
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +26,6 @@ const Login = ({ onLogin }) => {
     setError("");
     setSuccess("");
     setIsLoading(true);
-
     try {
       const response = await fetch('http://localhost:5000/api/user/login', {
         method: 'POST',
@@ -39,34 +37,27 @@ const Login = ({ onLogin }) => {
           password: formData.password
         }),
       });
-
       const data = await response.json();
-
       if (response.ok) {
         setIsValidToken(true);
         setUserId(data.user.userId);
-
         localStorage.setItem('token', data.token);
         alert('Successful login');
         if (onLogin) onLogin(data.token);
-
         if (data.user.role === "admin") navigate("/admin-dashboard");
         else navigate("/user-dashboard");
-
       } else {
         setError(data.message || 'Invalid credentials');
       }
-
     } catch (error) {
       setError('Network error. Please try again.');
     }
-
     setIsLoading(false);
-  }
+  };
 
   const showPassword = () => {
     setPaswrdEye(!paswrdEye);
-  }
+  };
 
   useEffect(() => {
     const checkToken = () => {
@@ -74,23 +65,21 @@ const Login = ({ onLogin }) => {
       if (token) {
         navigate('/user-dashboard');
       }
-    }
+    };
     checkToken();
-  }, [])
+  }, [navigate]);
 
   return (
-    <div className="LoginContainer">
-      <div className="login-card">
-        <div className="login-header">
+    <div className={styles["LoginContainer"]}>
+      <div className={styles["login-card"]}>
+        <div className={styles["login-header"]}>
           <h1>Login</h1>
           <p>Welcome back! Please sign in to your account.</p>
         </div>
-
-        <form className="login-form" onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
-
-          <div className="form-group">
+        <form className={styles["login-form"]} onSubmit={handleSubmit}>
+          {error && <div className={styles["error-message"]}>{error}</div>}
+          {success && <div className={styles["success-message"]}>{success}</div>}
+          <div className={styles["form-group"]}>
             <label htmlFor="email">Email Address</label>
             <input
               id="email"
@@ -102,10 +91,9 @@ const Login = ({ onLogin }) => {
               required
             />
           </div>
-
-          <div className="form-group">
+          <div className={styles["form-group"]}>
             <label htmlFor="password">Password</label>
-            <div className="inputSection">
+            <div className={styles["inputSection"]}>
               <input
                 id="password"
                 name="password"
@@ -115,13 +103,12 @@ const Login = ({ onLogin }) => {
                 onChange={handleChange}
                 required
               />
-
               <button
                 type="button"
                 onClick={showPassword}
                 aria-label="Show password"
               >
-                <div className="eye">
+                <div className={styles["eye"]}>
                   {
                     paswrdEye ?
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -142,14 +129,12 @@ const Login = ({ onLogin }) => {
               </button>
             </div>
           </div>
-
-          <button type="submit" className="login-button" disabled={isLoading}>
+          <button type="submit" className={styles["login-button"]} disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <div className="login-footer">
-          <div className="help-links">
+        <div className={styles["login-footer"]}>
+          <div className={styles["help-links"]}>
             <a href="/otp-login">Forgot Password?</a>
             <span> Don't have an account?<a href="/register"> Sign up</a></span>
           </div>
@@ -157,6 +142,6 @@ const Login = ({ onLogin }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

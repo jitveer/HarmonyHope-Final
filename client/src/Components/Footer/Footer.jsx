@@ -23,7 +23,7 @@ const Footer = () => {
             // Add event listener
             window.addEventListener("resize", handleResize);
 
-            if ((pathname.slice(1) === "login" || pathname.slice(1) === "register" || pathname.slice(1) === "notifications") && (width < 768)) {
+            if ((pathname.slice(1) === "notifications" || pathname.slice(1) === "login" || pathname.slice(1) === "register" || pathname.slice(1) === "verify-otp") && (width < 768)) {
                 setCheckPage(true);
             } else {
                 setCheckPage(false);
