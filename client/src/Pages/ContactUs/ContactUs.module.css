@@ -65,8 +65,9 @@
 
 .input,
 .textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
+  width: 95%;
+  padding: 0.8rem 0;
+  padding-left: 1rem;
   border: 1px solid #cbd5e1;
   border-radius: 0.5rem;
   font-size: 1rem;
@@ -100,12 +101,15 @@
   .mapWrapper {
     height: 220px;
   }
+  .contactPage {
+    padding: 2rem 0;
+  }
 }
 
 /* ✅ Mobile Responsive */
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .contactPage {
-    padding: 2rem 1rem;
+    padding: 2rem 0;
   }
 
   .heading {

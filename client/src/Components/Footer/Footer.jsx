@@ -61,20 +61,20 @@ const Footer = () => {
                                 <div className={style["row1"]}>
                                     <h4 className={style["footer-links-title"]}>Quick Links</h4>
                                     <ul className={style["footer-links-list"]}>
-                                        <li><a href="/" className={style["footer-link"]}>How It Works</a></li>
+                                        <li><a href="/about_us" className={style["footer-link"]}>How It Works</a></li>
                                         <li><a href="/" className={style["footer-link"]}>Success Stories</a></li>
                                         <li><a href="/" className={style["footer-link"]}>Guidelines</a></li>
-                                        <li><a href="/" className={style["footer-link"]}>FAQ</a></li>
+                                        <li><a href="/about_us" className={style["footer-link"]}>FAQ</a></li>
                                     </ul>
                                 </div>
 
                                 <div className={style["row2"]}>
                                     <h4 className={style["footer-links-title"]}>Support</h4>
                                     <ul className={style["footer-links-list"]}>
-                                        <li><a href="/" className={style["footer-link"]}>Contact Us</a></li>
-                                        <li><a href="/" className={style["footer-link"]}>Privacy Policy</a></li>
-                                        <li><a href="/" className={style["footer-link"]}>Terms of Service</a></li>
-                                        <li><a href="/" className={style["footer-link"]}>Help Center</a></li>
+                                        <li><a href="/contact_us" className={style["footer-link"]}>Contact Us</a></li>
+                                        <li><a href="/privacypolicy" className={style["footer-link"]}>Privacy Policy</a></li>
+                                        <li><a href="/term_condition" className={style["footer-link"]}>Terms of Service</a></li>
+                                        <li><a href="/contact_us" className={style["footer-link"]}>Help Center</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -14,7 +14,6 @@
   align-items: center;
 }
 
-
 .login-header {
   display: flex;
   flex-direction: column;
@@ -32,7 +31,6 @@
 .login-header>p {
   margin: 1rem 0 2rem 0;
 } */
-
 
 .login-form {
   background: white;
@@ -62,7 +60,7 @@
 .login-form button {
   width: 100%;
   padding: 0.8rem;
-  background-color: #005c97;
+  background-color: #004a7c;
   color: white;
   border: none;
   border-radius: 8px;
@@ -73,11 +71,62 @@
 }
 
 .login-form button:hover {
-  background-color: #004a7c;
+  background-color: #0080d6;
+  color: rgb(23, 23, 23);
+}
+
+.form-group {
+  margin-bottom: 0 !important;
 }
 
 .form-group>label {
   text-align: left;
+}
+
+/* .inputSection{
+  display: flex;
+} */
+
+.inputSection {
+  position: relative;
+  width: 100%;
+}
+
+.inputSection input {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding-right: 40px;
+  /* space for eye button */
+  box-sizing: border-box;
+}
+
+.inputSection button {
+  position: absolute;
+  right: 10px;
+  top: 30%;
+  transform: translateY(-50%);
+  background: none !important;
+  color: black;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputSection button {
+  background-color: none;
+}
+
+.inputSection>button {
+  width: 32px;
+  height: 27px;
+  background-color: none;
 }
 
 .help-links {
@@ -93,9 +142,7 @@
   color: white;
 }
 
-
-@media(max-width:767px) {
-
+@media (max-width: 767px) {
   .LoginContainer {
     min-height: 0vh;
     height: 88vh;
@@ -116,7 +163,6 @@
     margin: 0 0;
   }
 
-
   .login-form {
     gap: 0;
   }
@@ -126,15 +172,10 @@
   }
 
   .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
   }
 
   .form-group label {
     margin-bottom: 0 !important;
-
   }
-
-
-
-
 }

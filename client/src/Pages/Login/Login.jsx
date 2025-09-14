@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './Login.css';
-import { useEffect } from "react";
 import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
-
-
 
 const Login = ({ onLogin }) => {
 
@@ -18,14 +15,12 @@ const Login = ({ onLogin }) => {
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [paswrdEye, setPaswrdEye] = useState(true);
-  const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
-
+  const { setIsValidToken, setUserId } = useUserTokenValidation();
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,16 +45,12 @@ const Login = ({ onLogin }) => {
       if (response.ok) {
         setIsValidToken(true);
         setUserId(data.user.userId);
-        console.log(data.user.userId);
 
         localStorage.setItem('token', data.token);
         alert('Successful login');
         if (onLogin) onLogin(data.token);
 
-        // Redirect based on role 
         if (data.user.role === "admin") navigate("/admin-dashboard");
-
-        // else if (data.user.role === "superadmin") navigate("/superadmin");
         else navigate("/user-dashboard");
 
       } else {
@@ -73,16 +64,9 @@ const Login = ({ onLogin }) => {
     setIsLoading(false);
   }
 
-
-  // PASSWORD EYE
   const showPassword = () => {
-    paswrdEye ? setPaswrdEye(false) : setPaswrdEye(true);
+    setPaswrdEye(!paswrdEye);
   }
-
-
-
-
-  //IF TOKEN IN LOCAL STORAGE THEN GO TO THAT PAGE
 
   useEffect(() => {
     const checkToken = () => {
@@ -91,13 +75,8 @@ const Login = ({ onLogin }) => {
         navigate('/user-dashboard');
       }
     }
-
     checkToken();
   }, [])
-
-
-
-
 
   return (
     <div className="LoginContainer">
@@ -126,51 +105,42 @@ const Login = ({ onLogin }) => {
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="inputSection">
+              <input
+                id="password"
+                name="password"
+                type={paswrdEye ? "password" : "text"}
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
 
-
-
-
-            <button
-              type="button"
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-              }}
-              tabIndex="-1"
-              aria-label="Show password"
-            >
-              {/* Eye Icon SVG */}
-              <div className="eye" onClick={showPassword}>
-                {
-                  paswrdEye ?
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c2.5 3 5.5 4.5 10 4.5s7.5-1.5 10-4.5" /><path d="M4 12c2 1.6 4.5 2.4 8 2.4s6-0.8 8-2.4" /><path d="M6 10l-1.5-1" /><path d="M10 9.5L9 8" /><path d="M14 9.5l1-1.5" /><path d="M18 10l1.5-1" /></svg>
-                    :
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                }
-              </div>
-            </button>
-
-
-
-
+              <button
+                type="button"
+                onClick={showPassword}
+                aria-label="Show password"
+              >
+                <div className="eye">
+                  {
+                    paswrdEye ?
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 12c2.5 3 5.5 4.5 10 4.5s7.5-1.5 10-4.5" />
+                        <path d="M4 12c2 1.6 4.5 2.4 8 2.4s6-0.8 8-2.4" />
+                        <path d="M6 10l-1.5-1" />
+                        <path d="M10 9.5L9 8" />
+                        <path d="M14 9.5l1-1.5" />
+                        <path d="M18 10l1.5-1" />
+                      </svg>
+                      :
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                  }
+                </div>
+              </button>
+            </div>
           </div>
 
           <button type="submit" className="login-button" disabled={isLoading}>
