@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './UserDashboard.css';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
-
 
 
 const UserDashboard = () => {
@@ -11,11 +10,41 @@ const UserDashboard = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token"); // JWT token
+  const location = useLocation();
 
 
+  // DELETE USER
+  const requestDelete = async (id) => {
+
+    if (confirm("Are you sure to delete this request")) {
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/requests/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("Request deleted successfully");
+          setRequests((prev) => prev.filter((req) => req._id !== id));
+        } else {
+          alert(data.message || "Error deleting request");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Server error");
+      }
+
+    }
+
+  }
 
 
-
+  // USER EFFECTS
 
   useEffect(() => {
 
@@ -58,44 +87,28 @@ const UserDashboard = () => {
     }
 
 
-
     fetchRequests();
     checkPathByRole();
+
 
   }, []);
 
 
-  // DELETE USER
-  const requestDelete = async (id) => {
 
-    if (confirm("Are you sure to delete this request")) {
+  // useEffect(() => {
+  //   if (location.pathname === "/user-dashboard") {
+  //     const timer = setTimeout(() => {
+  //       window.location.reload();
+  //     }, 5000);
 
-      try {
-        const res = await fetch(`http://localhost:5000/api/requests/${id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          alert("Request deleted successfully");
-          setRequests((prev) => prev.filter((req) => req._id !== id));
-        } else {
-          alert(data.message || "Error deleting request");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Server error");
-      }
-
-    }
+  //     // cleanup
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [location.pathname]);
 
 
 
-  }
+
 
 
 

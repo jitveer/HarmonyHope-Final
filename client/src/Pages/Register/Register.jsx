@@ -16,7 +16,7 @@ function Register() {
     const [checkBoxCheck, setCheckBoxCheck] = useState(false);
     const navigate = useNavigate();
     const [paswrdEye, setPaswrdEye] = useState(true);
-    const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
+    const { userId, isValidToken, setUserId, setIsValidToken } = useUserTokenValidation();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,6 +30,7 @@ function Register() {
     }
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         const { name, email, phone, password } = register;
@@ -88,6 +89,7 @@ function Register() {
 
             if (response.ok) {
                 // console.log("Registration successful:", data);
+
                 setIsValidToken(true);
                 alert(data.message);
                 navigate("/verify-otp", { state: { email: email } });

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserTokenValidation } from "../../Components/UserTokenVerification/UserTokenVerification";
+import style from './OtpLogin.module.css'
 
 
 const OtpLogin = ({ onLogin }) => {
@@ -118,17 +119,17 @@ const OtpLogin = ({ onLogin }) => {
   }, [timer]);
 
   return (
-    <div className="LoginContainer">
-      <div className="login-card">
-        <div className="login-header">
+    <div className={style["LoginContainer"]}>
+      <div className={style["login-card"]}>
+        <div className={style["login-header"]}>
           <h1>OTP Login</h1>
           <p>Enter your Email or Mobile number to receive OTP</p>
         </div>
 
-        <form className="login-form" onSubmit={otpSent ? handleVerifyOtp : handleSendOtp}>
-          {error && <div className="error-message">{error}</div>}
+        <form className={style["login-form"]} onSubmit={otpSent ? handleVerifyOtp : handleSendOtp}>
+          {error && <div className={style["error-message"]}>{error}</div>}
 
-          <div className="form-group">
+          <div className={style["form-group"]}>
             <label htmlFor="inputValue">Email or Mobile</label>
             <input
               id="inputValue"
@@ -141,7 +142,7 @@ const OtpLogin = ({ onLogin }) => {
           </div>
 
           {otpSent && (
-            <div className="form-group">
+            <div className={style["form-group"]}>
               <label htmlFor="otp">Enter OTP</label>
               <input
                 id="otp"
@@ -152,13 +153,13 @@ const OtpLogin = ({ onLogin }) => {
                 onChange={(e) => setOtp(e.target.value)}
                 required
               />
-              <p className="timer-text">
+              <p className={style["timer-text"]}>
                 {timer > 0 ? `Resend OTP in ${timer}s` : "You can resend OTP"}
               </p>
             </div>
           )}
 
-          <button type="submit" className="login-button">
+          <button type="submit" className={style["login-button"]}>
             {otpSent ? "Verify OTP" : "Send OTP"}
           </button>
         </form>

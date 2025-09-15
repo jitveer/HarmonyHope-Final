@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 /* ICONS */
-import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt, FaBell, FaPhoneAlt    } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaSignOutAlt, FaBars, FaTachometerAlt, FaBell, FaPhoneAlt } from "react-icons/fa";
 
 
 function Navbar() {
@@ -18,9 +18,6 @@ function Navbar() {
     const { isValidToken, userId, setIsValidToken, setUserId } = useUserTokenValidation();
 
     const navigate = useNavigate();
-
-
-    console.log("navbar lsoin = ", isValidToken)
 
 
     // MOBILE MENU TOGGLE
@@ -41,7 +38,6 @@ function Navbar() {
     //CAPATILIZE FIRST LETTER
 
     function capitalizeFirstWord(text) {
-
         if (!text) return "";
         const [firstWord, ...rest] = text.split(" ");
         return `${firstWord.charAt(0).toUpperCase() + firstWord.slice(1)} ${rest.join(" ")}`;
@@ -112,21 +108,17 @@ function Navbar() {
 
                 const data = await res.json();
                 setUserName(data.user.name);
-                // console.log(data.user.name);
+                console.log(data.user.name);
 
             } catch (err) {
                 console.error("Error fetching user Data");
             }
 
-            // if (isValidToken) {
-
-            // }
         }
 
         fetchUserData();
 
-
-    }, [isValidToken])
+    }, [isValidToken, userId])
 
 
 
@@ -229,7 +221,6 @@ function Navbar() {
                             {
                                 isValidToken ? (
                                     <>
-
                                         <div className={style["userNameSection"]}>
                                             <span className={style["userName"]}>{capitalizeFirstWord(userName)}</span>
                                             <span className={style["userdesignation"]}>IT Engineer</span>
@@ -261,7 +252,7 @@ function Navbar() {
                                 <Link to="/about_us" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>About Us</Link>
                             </div>
                             <div className={style["mobile-menu-list"]}>
-                                <FaPhoneAlt   />
+                                <FaPhoneAlt />
                                 <Link to="/contact_us" className={style["mobile-menu-link"]} onClick={closeMobileMenu}>Contact Us</Link>
                             </div>
 

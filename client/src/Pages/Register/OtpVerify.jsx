@@ -47,7 +47,7 @@ const OtpVerify = () => {
         }
     };
 
-    const handleResend = async() => {
+    const handleResend = async () => {
         setOtp(Array(6).fill(""));
         setTimer(60);
         setResendVisible(false);
@@ -103,9 +103,9 @@ const OtpVerify = () => {
             const data = await res.json();
 
             if (res.ok) {
-                setIsValidToken(true);
                 setUserId(data.user.userId);
-                console.log(" OTP Verified Successfully: ", data);
+                setIsValidToken(true);
+
                 alert("You are succesfully register");
                 localStorage.setItem("token", data.token);
                 navigation("/user-dashboard", { state: { email: email } });
@@ -170,7 +170,7 @@ const OtpVerify = () => {
                         <span>Verify OTP</span>
                     </button>
                 </form>
-                
+
             </div>
         </div>
     );

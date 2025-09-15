@@ -12,7 +12,7 @@ router.get("/verify", userTokenChecking, (req, res) => {
 
 
 // GET USER BY EMAIL/PASSWORD
-router.post("/login", getUser)
+router.post("/login", getUser);
 
 
 // GET USER BY ID

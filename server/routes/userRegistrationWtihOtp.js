@@ -83,7 +83,7 @@ router.post('/register', async (req, res) => {
             expiresAt,
             name,
             phone,
-            password:hashedPassword,
+            password: hashedPassword,
             role: role || "user"   // if not provided, set default role "user"
         });
 
@@ -154,7 +154,7 @@ router.post("/verify-otp", async (req, res) => {
         res.status(200).json({
             message: "OTP verified successfully",
             token,
-            user: { name: user.name, email: user.email, role: user.role }
+            user: { userId: user._id, name: user.name, email: user.email, role: user.role }
         });
 
     } catch (err) {
