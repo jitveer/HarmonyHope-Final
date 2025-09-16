@@ -11,6 +11,7 @@ const myDonation = require('./routes/donation.js');
 const app = express();
 app.use(cors());
 app.use(express.json());
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
@@ -21,7 +22,7 @@ app.use('/api/auth', userRegistrationWtihOtp);
 app.use('/api/user', userLoginWithUserProfile);
 
 // REQUEST API
-app.use('/api/requests', requestRoutes);
+app.use('/api/requests', requestRoutes);  
 
 
 // DONATION API

@@ -196,7 +196,6 @@ function Navbar() {
                 </div>
             </nav>
 
-
             {/* SIDEBAR */}
 
 

@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    margin: 2rem 0 ;
+    margin: 2rem 0;
     background-color: #f9f9fc;
     font-family: 'Segoe UI', sans-serif;
 }
@@ -127,36 +127,37 @@
 
 /* Improve input field design */
 .user-name input {
-  width: 100%;
-  padding: 0.6rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.3s;
-  margin-top: 4px;
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-top: 4px;
 }
 
 .user-name input:focus {
-  border-color: #6c63ff;
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
 .upload-button {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  font-size: 0.9rem;
-  border: 1px dashed #aaa;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  cursor: pointer;
-  color: #333;
-  transition: all 0.3s;
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border: 1px dashed #aaa;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.3s;
 }
 
 .upload-button:hover {
-  background-color: #eaeaea;
+    background-color: #eaeaea;
 }
+
 
 
 
@@ -189,7 +190,7 @@
         width: 100%;
     }
 
-    
-    
-    
+
+
+
 }

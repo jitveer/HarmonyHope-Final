@@ -11,6 +11,13 @@ const userSchema = new mongoose.Schema({
         default: "user"
     },
     isVerified: { type: Boolean, default: false },
+
+    profileImage: {
+        type: String,
+        required: false,
+        default: process.env.DEFAULT_USER_IMAGE
+    },
+
     createdAt: { type: Date, default: Date.now }
 });
 

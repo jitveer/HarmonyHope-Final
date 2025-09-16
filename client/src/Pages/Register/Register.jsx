@@ -11,7 +11,8 @@ function Register() {
         name: "",
         email: "",
         phone: "",
-        password: ""
+        password: "",
+        profileImage: ""
     })
     const [checkBoxCheck, setCheckBoxCheck] = useState(false);
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ function Register() {
 
         e.preventDefault();
 
-        const { name, email, phone, password } = register;
+        const { name, email, phone, profileImage, password } = register;
 
         // FORM VALIDATAION
         const nameRegex = /^[A-Za-z\s]{3,20}$/;
@@ -65,6 +66,7 @@ function Register() {
             alert("Please fill all fields");
             return;
         }
+
 
 
 

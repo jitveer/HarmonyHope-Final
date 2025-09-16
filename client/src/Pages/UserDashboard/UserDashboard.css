@@ -88,6 +88,7 @@
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .donate-btn,
@@ -425,11 +426,11 @@
     padding-top: 19px;
   }
 
-  .balance-card{
+  .balance-card {
     margin-left: 10px;
   }
 
-  .requests-card{
+  .requests-card {
     margin-right: 10px;
   }
 
@@ -507,11 +508,9 @@
     padding: 0;
   }
 
-  .request-actions {
+  .request-actions {}
 
-  }
 
-  
 
 
 }
@@ -579,11 +578,45 @@
   }
 }
 
+@keyframes fadInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .card,
 .donations-section,
 .requests-section {
   animation: fadeInUp 0.6s ease-out;
 }
+
+.request-btn {
+  animation: fadInRight 0.6s ease-out;
+}
+
+.donate-btn {
+  animation: fadInLeft 0.6s ease-out;
+}
+
+
 
 /* Custom scrollbar */
 .donation-list::-webkit-scrollbar {

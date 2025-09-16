@@ -22,13 +22,20 @@ const generateOtp = (length = 6) =>
 router.post('/register', async (req, res) => {
 
     // Added role to destructure
-    const { name, email, phone, password, role } = req.body;
+    const { name, email, phone, password, role, profileImage } = req.body;
     const nameRegex = /^[A-Za-z\s]{3,20}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
     const phoneRegex = /^[6-9]\d{9}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
-    console.log(req.body);
+    console.log(profileImage);
+    
+    let imageUrl = profileImage;
+    if (!profileImage) {
+        imageUrl = "https://share.google/images/gNxasBoWF5ILF4xWm"; // fallback default
+    }
+
+    console.log(profileImage);
 
 
     // FORM VALIDATAION
@@ -84,6 +91,7 @@ router.post('/register', async (req, res) => {
             name,
             phone,
             password: hashedPassword,
+            profileImage:imageUrl,
             role: role || "user"   // if not provided, set default role "user"
         });
 
